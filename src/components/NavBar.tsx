@@ -48,7 +48,7 @@ export function NavBar() {
           </span>
         </a>
 
-        <nav aria-label="Primary" className="hidden md:block">
+        <nav aria-label="Primary" className="hidden lg:block">
           <ul className="flex items-center gap-1">
             {navItems.map((item) => {
               const isActive = activeId === item.id
@@ -67,7 +67,7 @@ export function NavBar() {
           </ul>
         </nav>
 
-        <div className="hidden md:block">
+        <div className="hidden lg:block">
           <ButtonLink
             href={site.resumeUrl}
             download
@@ -85,7 +85,7 @@ export function NavBar() {
           aria-expanded={isOpen}
           aria-controls="mobile-navigation"
           aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
-          className="grid size-11 place-items-center rounded-xl border border-line bg-surface text-ink transition-colors hover:bg-surface-muted md:hidden"
+          className="grid size-11 place-items-center rounded-xl border border-line bg-surface text-ink transition-colors hover:bg-surface-muted lg:hidden"
         >
           <Icon name={isOpen ? 'close' : 'menu'} className="size-5" />
         </button>
@@ -94,7 +94,7 @@ export function NavBar() {
       {isOpen ? (
         <div
           id="mobile-navigation"
-          className="absolute inset-x-0 top-full border-b border-line bg-canvas shadow-lg md:hidden"
+          className="absolute inset-x-0 top-full border-b border-line bg-canvas shadow-lg lg:hidden"
         >
           <nav aria-label="Primary mobile" className="px-5 py-3 sm:px-8">
             <ul className="flex flex-col gap-1">

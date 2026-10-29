@@ -1,9 +1,16 @@
-import { skillGroups } from '../../data/skills'
+import type { skills } from '../../worker/db/schema'
+import { useApiList } from '../../hooks/useApiList'
+import { ListStatus } from '../../components/ListStatus'
 import { Section } from '../../components/Section'
 import { SectionHeading } from '../../components/SectionHeading'
 import { Tag } from '../../components/Tag'
 
 export function Skills() {
+  const state = useApiList<typeof skills.$inferSelect>('/api/skills')
+  const skillGroups = Array.from(new Set(state.data.map((skill) => skill.category))).map((category, index) => ({
+    id: String(index), name: category, summary: '',
+    skills: state.data.filter((skill) => skill.category === category).map((skill) => skill.name),
+  }))
   return (
     <Section
       id="skills"
@@ -18,6 +25,7 @@ export function Skills() {
       />
 
       <div className="mt-12 grid gap-4 sm:grid-cols-2">
+        <ListStatus status={state.status} retry={state.retry} />
         {skillGroups.map((group) => (
           <section
             key={group.id}
