@@ -1,33 +1,7 @@
-export interface SkillGroup {
-  id: string
-  name: string
-  summary: string
-  skills: string[]
-}
-
+export interface SkillGroup { id: string; name: string; skills: string[] }
 export const skillGroups: SkillGroup[] = [
-  {
-    id: 'frontend',
-    name: 'Frontend',
-    summary: 'Building responsive, accessible interfaces.',
-    skills: ['React', 'TypeScript', 'JavaScript', 'Tailwind CSS', 'HTML5', 'CSS3'],
-  },
-  {
-    id: 'backend',
-    name: 'Backend',
-    summary: 'Connecting interfaces to data and services.',
-    skills: ['Cloudflare Workers', 'Drizzle ORM', 'REST APIs'],
-  },
-  {
-    id: 'databases',
-    name: 'Databases',
-    summary: 'Modeling and querying structured data.',
-    skills: ['PostgreSQL', 'SQLite', 'Cloudflare D1'],
-  },
-  {
-    id: 'tools',
-    name: 'Tools',
-    summary: 'Day-to-day development workflow.',
-    skills: ['Git', 'GitHub', 'Vite', 'VS Code'],
-  },
+  { id: 'languages-web-tools', name: 'Languages & Web Tools', skills: ['JavaScript', 'HTML', 'CSS', 'C++', 'Python', 'VB.NET', 'React.js', 'Node.js', 'Tailwind CSS'] },
+  { id: 'platforms-databases', name: 'Platforms & Databases', skills: ['GitHub', 'Vercel', 'Figma', 'Jira', 'MySQL', 'PostgreSQL', 'Firebase'] },
+  { id: 'core-competencies', name: 'Core Competencies', skills: ['Front-End Development', 'Project Management', 'API Integration', 'Real-Time Systems', 'UI/UX Wireframing'] },
+  { id: 'ai-development-tools', name: 'AI & Development Tools', skills: ['AI-Assisted Coding', 'Prompt Writing', 'AI-Assisted Debugging', 'AI-Assisted Research'] },
 ]

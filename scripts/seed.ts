@@ -1,23 +1,24 @@
 import { execFileSync } from 'node:child_process'
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { projects } from '../src/data/projects.ts'
+import { skillGroups } from '../src/data/skills.ts'
 
 const quote = (value: string) => `'${value.replaceAll("'", "''")}'`
-const statements = projects.map((project, index) => {
-  const title = project.id === 'automated-payroll' ? 'Automated Payroll System for URS' : project.title
-  const stack = project.stack.map((item) => item === 'D1 (SQLite)' ? 'D1' : item)
-  return `INSERT INTO projects (id,title,slug,description,stack,github_url,demo_url,sort_order)
-    VALUES (${quote(project.id)},${quote(title)},${quote(project.id)},${quote(project.description)},${quote(JSON.stringify(stack))},NULL,NULL,${index}) ON CONFLICT DO NOTHING;`
-})
-const groups = {
-  Frontend: ['React', 'TypeScript', 'Tailwind CSS'],
-  Databases: ['PostgreSQL', 'SQLite', 'D1'],
-  'Tools & Cloud': ['Git/GitHub', 'Cloudflare Workers'],
+// Resume-owned content tables only; contact messages are never modified.
+const statements = [
+   `DELETE FROM projects WHERE slug NOT IN (${projects.map((p) => quote(p.slug ?? p.id)).join(',')});`,
+  `DELETE FROM skills WHERE id NOT IN (${skillGroups.flatMap((g) => g.skills.map((_, i) => quote(`${g.id}-${i}`))).join(',')});`,
+]
+for (const [index, project] of projects.entries()) {
+  statements.push(`INSERT INTO projects (id,title,slug,description,stack,github_url,demo_url,sort_order,featured)
+    VALUES (${quote(project.id)},${quote(project.title)},${quote(project.slug ?? project.id)},${quote(project.description)},${quote(JSON.stringify(project.stack))},NULL,NULL,${index},${project.featured ? 1 : 0})
+    ON CONFLICT(slug) DO UPDATE SET title=excluded.title,description=excluded.description,stack=excluded.stack,github_url=NULL,demo_url=NULL,sort_order=excluded.sort_order,featured=excluded.featured;`)
 }
 let order = 0
-for (const [category, names] of Object.entries(groups)) {
-  for (const name of names) {
-    statements.push(`INSERT INTO skills (id,category,name,sort_order) VALUES (${quote(name.toLowerCase().replaceAll(/[^a-z0-9]+/g, '-'))},${quote(category)},${quote(name)},${order++}) ON CONFLICT DO NOTHING;`)
+for (const group of skillGroups) {
+  for (const [index, name] of group.skills.entries()) {
+    statements.push(`INSERT INTO skills (id,category,name,sort_order) VALUES (${quote(`${group.id}-${index}`)},${quote(group.name)},${quote(name)},${order++})
+      ON CONFLICT(id) DO UPDATE SET category=excluded.category,name=excluded.name,sort_order=excluded.sort_order;`)
   }
 }
 mkdirSync('.wrangler', { recursive: true })

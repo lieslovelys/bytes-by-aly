@@ -17,9 +17,9 @@ export function Section({
     <section
       id={id}
       aria-labelledby={labelledBy}
-      className={`scroll-mt-20 py-20 sm:py-24 ${className}`}
+      className={`scroll-mt-20 py-10 md:py-14 ${className}`}
     >
-      <div className="mx-auto w-full max-w-6xl px-5 sm:px-8">{children}</div>
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">{children}</div>
     </section>
   )
 }

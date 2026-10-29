@@ -1,49 +1,42 @@
 import { useEffect, useState } from 'react'
 
-/**
- * Tracks which section is currently in view so the primary navigation can
- * mark the active link. Uses a passive scroll listener with rAF batching.
- */
+/** Track the section crossing a narrow band near the top of the viewport. */
 export function useActiveSection(ids: readonly string[]): string {
   const [activeId, setActiveId] = useState(ids[0] ?? '')
 
   useEffect(() => {
-    let frame = 0
-
+    const elements = ids.flatMap((id) => {
+      const element = document.getElementById(id)
+      return element ? [element] : []
+    })
     const update = () => {
-      frame = 0
-      const offset = 120
-      let current = ''
-
-      for (const id of ids) {
-        const element = document.getElementById(id)
-        if (element && element.getBoundingClientRect().top <= offset) {
-          current = id
-        }
+      const boundary = window.innerHeight * 0.25 + 2
+      let current = ids[0] ?? ''
+      for (const element of elements) {
+        if (element.getBoundingClientRect().top <= boundary) current = element.id
       }
-
-      const atBottom =
-        window.scrollY + window.innerHeight >=
-        document.documentElement.scrollHeight - 4
-      if (atBottom) {
+      if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4) {
         current = ids[ids.length - 1] ?? current
       }
-
       setActiveId(current)
     }
-
-    const onScroll = () => {
-      if (!frame) frame = requestAnimationFrame(update)
+    let observer: IntersectionObserver | undefined
+    const observe = () => {
+      observer?.disconnect()
+      const top = window.innerHeight * 0.25
+      const bottom = Math.max(0, window.innerHeight - top - 2)
+      observer = new IntersectionObserver(update, {
+        rootMargin: `-${top}px 0px -${bottom}px 0px`,
+        threshold: 0,
+      })
+      elements.forEach((element) => observer?.observe(element))
+      update()
     }
-
-    update()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll)
-
+    observe()
+    window.addEventListener('resize', observe)
     return () => {
-      if (frame) cancelAnimationFrame(frame)
-      window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onScroll)
+      observer?.disconnect()
+      window.removeEventListener('resize', observe)
     }
   }, [ids])
 

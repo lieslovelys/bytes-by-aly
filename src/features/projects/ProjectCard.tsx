@@ -1,110 +1,55 @@
 import type { Project } from '../../data/projects'
-import { Icon } from '../../components/Icon'
+import { academicAchievement } from '../../data/achievements'
 import { Tag } from '../../components/Tag'
+import { iconOf, slugOf, titleOf } from './showcase'
 
 interface ProjectCardProps {
   project: Project
   index: number
+  onOpen: (id: string, trigger: HTMLElement) => void
 }
 
-export function ProjectCard({ project, index }: ProjectCardProps) {
-  const { featured = false, highlights = [] } = project
-
+export function ProjectCard({ project, index, onOpen }: ProjectCardProps) {
+  const featured = project.featured === true
+  const ProjectIcon = iconOf(project)
+  const award = slugOf(project) === 'urstamp' ? academicAchievement.match(/System Making (1st place) – URStamp \((\d+)\)/) : null
+  const title = featured ? titleOf(project).split(' for ')[0] : titleOf(project)
   return (
     <article
-      className={`flex flex-col rounded-2xl border border-line bg-surface p-6 shadow-sm transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-md focus-within:border-accent/60 motion-reduce:hover:translate-y-0 sm:p-7 ${
-        featured ? 'sm:col-span-2' : ''
-      }`}
+      data-index={index}
+      className={`group relative flex min-w-0 flex-col rounded-3xl border border-cream/10 bg-forest text-cream shadow-sm transition-colors duration-200 hover:border-blush focus-within:border-blush motion-safe:transition-[transform,opacity,border-color]! motion-safe:duration-200! motion-safe:hover:delay-0! motion-safe:focus-within:delay-0! motion-safe:hover:-translate-y-1 ${featured ? 'col-span-full' : ''}`}
     >
-      <div
-        className={
-          featured
-            ? 'grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-12'
-            : 'flex flex-1 flex-col'
-        }
-      >
-        <div className="flex flex-1 flex-col">
-          <div className="flex items-start justify-between gap-4">
-            <p className="text-xs font-semibold tracking-[0.16em] text-accent uppercase">
-              {project.context}
-            </p>
-            <span
-              aria-hidden="true"
-              className="text-xs font-semibold text-muted/70 tabular-nums"
-            >
-              {String(index).padStart(2, '0')}
+      <div className="flex h-full flex-1 flex-col rounded-3xl">
+        <div className="flex h-full flex-1 flex-col rounded-3xl p-5 md:p-6">
+          <div className={featured ? 'mb-3 flex items-center gap-3' : 'mb-4 flex items-start justify-between gap-3'}>
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-blush text-forest motion-safe:transition-transform motion-safe:duration-200 motion-safe:group-hover:rotate-6">
+              <ProjectIcon aria-hidden="true" className="size-5" strokeWidth={1.75} />
             </span>
+            {featured && <p className="w-fit rounded-full bg-blush px-3 py-1 text-label font-semibold tracking-widest text-forest">THESIS PROJECT</p>}
+            <span className={`${featured ? 'ml-auto ' : ''}text-xs tabular-nums`}>{String(index + 1).padStart(2, '0')}</span>
           </div>
-
-          <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2">
-            <h3 className="text-xl font-semibold tracking-tight sm:text-2xl">
-              {project.title}
-            </h3>
-            {featured ? (
-              <span className="rounded-full bg-accent-soft px-2.5 py-1 text-[0.65rem] font-semibold tracking-[0.12em] text-accent uppercase">
-                Featured
-              </span>
-            ) : null}
-          </div>
-
-          <p className="mt-3 text-sm leading-6 text-muted">
-            {project.description}
-          </p>
-
-          <ul
-            aria-label={`${project.title} technology stack`}
-            className="mt-5 flex flex-wrap gap-1.5"
-          >
-            {project.stack.map((technology) => (
-              <li key={technology}>
-                <Tag>{technology}</Tag>
-              </li>
-            ))}
-          </ul>
-
-          {project.links.length > 0 ? (
-            <div className="mt-auto flex flex-wrap gap-2 pt-6">
-              {project.links.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-xs font-semibold text-ink transition-colors hover:border-accent/50 hover:bg-accent-soft hover:text-accent"
-                >
-                  {link.label}
-                  <Icon
-                    name={link.kind === 'github' ? 'github' : 'arrow-up-right'}
-                    className="size-3.5"
-                  />
-                  <span className="sr-only">(opens in a new tab)</span>
-                </a>
-              ))}
+          {award && <p className="mb-3 w-fit rounded-full bg-blush px-2.5 py-0.5 text-xs font-semibold text-forest">{award[1]} · System Making {award[2]}</p>}
+          <h3 className={`font-semibold text-balance ${featured ? 'mb-3 max-w-3xl font-heading text-xl leading-tight md:text-2xl' : 'line-clamp-2 text-lg leading-tight'}`}>
+            <button type="button" onClick={(event) => onOpen(project.id, event.currentTarget)} className="min-h-11 text-left ring-blush ring-offset-2 ring-offset-forest-dark after:absolute after:inset-0 after:rounded-3xl focus-visible:outline-none focus-visible:ring-2 focus-visible:after:ring-2 focus-visible:after:ring-blush focus-visible:after:ring-offset-2 focus-visible:after:ring-offset-forest-dark">
+               {title}
+                {featured && <>{' '}{titleOf(project).slice(title.length).trim()}</>}
+            </button>
+          </h3>
+          <p className={`text-sm leading-relaxed ${featured ? 'mb-4 max-w-3xl md:text-base' : 'mt-3 line-clamp-3'}`}>{project.description}</p>
+          {featured ? <div className="w-full border-t border-cream/15">
+            <div className="flex flex-col items-start gap-3 pt-4 md:flex-row md:flex-wrap md:items-center md:justify-between">
+              <ul aria-label={`${title} technology stack`} className="flex min-w-0 flex-wrap gap-1.5">
+                {project.stack.map((technology) => <li key={technology}><Tag>{technology}</Tag></li>)}
+              </ul>
+              <button type="button" onClick={(event) => onOpen(project.id, event.currentTarget)} className="relative z-10 min-h-11 shrink-0 rounded-full border border-cream px-4 py-2 text-sm font-semibold ring-blush ring-offset-2 ring-offset-forest-dark hover:bg-blush hover:text-forest focus-visible:outline-none focus-visible:ring-2">View details</button>
             </div>
-          ) : null}
-        </div>
-
-        {featured && highlights.length > 0 ? (
-          <div className="rounded-2xl bg-surface-muted p-5 sm:p-6">
-            <h4 className="text-xs font-semibold tracking-[0.16em] text-muted uppercase">
-              Highlights
-            </h4>
-            <ul className="mt-3.5 space-y-3">
-              {highlights.map((highlight) => (
-                <li
-                  key={highlight}
-                  className="flex gap-2.5 text-sm leading-6 text-ink"
-                >
-                  <Icon
-                    name="check"
-                    className="mt-1 size-3.5 shrink-0 text-accent"
-                  />
-                  <span>{highlight}</span>
-                </li>
-              ))}
+          </div> : <div className="mt-auto pt-4">
+            <div className="mb-4 border-t border-current opacity-15" />
+            <ul aria-label={`${title} technology stack`} className="flex flex-wrap gap-1.5">
+              {project.stack.map((technology) => <li key={technology}><Tag>{technology}</Tag></li>)}
             </ul>
-          </div>
-        ) : null}
+          </div>}
+        </div>
       </div>
     </article>
   )

@@ -1,3 +1,5 @@
+import { MessageCircle } from 'lucide-react'
+
 export type IconName =
   | 'arrow-right'
   | 'arrow-up-right'
@@ -7,6 +9,7 @@ export type IconName =
   | 'download'
   | 'github'
   | 'linkedin'
+  | 'telegram'
   | 'mail'
   | 'map-pin'
   | 'menu'
@@ -25,6 +28,8 @@ export function Icon({ name, className = 'size-4' }: IconProps) {
   } as const
 
   switch (name) {
+    case 'telegram':
+      return <MessageCircle className={className} aria-hidden="true" />
     case 'github':
       return (
         <svg {...shared} fill="currentColor">

@@ -1,13 +1,8 @@
 export type ProjectLinkKind = 'github' | 'demo'
-
-export interface ProjectLink {
-  label: string
-  href: string
-  kind: ProjectLinkKind
-}
-
+export interface ProjectLink { label: string; href: string; kind: ProjectLinkKind }
 export interface Project {
   id: string
+  slug?: string
   title: string
   context: string
   description: string
@@ -16,69 +11,45 @@ export interface Project {
   links: ProjectLink[]
   featured?: boolean
 }
-
-/**
- * Edit, reorder, or add projects here. All fields are typed, and `links`
- * can stay empty when a repository or live demo is not public.
- */
 export const projects: Project[] = [
   {
-    id: 'urstamp',
-    title: 'URStamp',
-    context: 'University System',
-    description:
-      'An event management and QR attendance system for the University of Rizal System, designed to replace manual sign-ins with fast, verifiable check-ins.',
-    stack: [
-      'React',
-      'TypeScript',
-      'Tailwind CSS',
-      'Cloudflare Workers',
-      'D1 (SQLite)',
-      'Drizzle ORM',
-    ],
-    highlights: [
-      'Department/program-based event audiences',
-      'Encrypted QR time-in and time-out',
-      'Creator-only attendance reporting with PDF export',
-      'Master-list management linking student records to accounts',
-    ],
-    links: [],
-    featured: true,
-  },
-  {
     id: 'automated-payroll',
-    title: 'Automated Payroll System',
-    context: 'Undergraduate Thesis',
-    description:
-      'A centralized payroll platform for the University of Rizal System, bringing HR, Accounting, employee attendance, and payroll management into one system with biometric attendance integration.',
-    stack: ['React.js', 'PostgreSQL', 'Biometric Device'],
-    links: [],
+    title: 'Automated Payroll System for the University of Rizal System — Thesis Project',
+    context: 'Thesis Project',
+    description: 'Developed a centralized payroll system integrating HR, Accounting, employee attendance, and payroll management, with biometric attendance integration for automated employee time recording.',
+    stack: ['React.js', 'PostgreSQL', 'Biometric Device'], links: [], featured: true,
   },
   {
-    id: 'sors',
-    title: 'S.O.R.S',
-    context: 'Project details to be confirmed',
-    description:
-      'Placeholder: add the confirmed S.O.R.S description and technology stack before publishing.',
-    stack: ['Stack to be confirmed'],
-    links: [],
+    id: 'urstamp',
+    title: 'URStamp: Event Management and QR Attendance System for the University of Rizal System',
+    context: 'Project',
+    description: 'Developed a centralized event platform integrating department and program-based event audiences, encrypted QR time-in/time-out scanning, and creator-only attendance reporting with PDF export, plus master-list management that links student records to registered accounts.',
+    stack: ['React.js', 'TypeScript', 'Tailwind CSS', 'Cloudflare Workers', 'D1 (SQLite)', 'Drizzle ORM'], links: [],
   },
   {
-    id: 'adgen',
-    title: 'AdGen',
-    context: 'Project details to be confirmed',
-    description:
-      'Placeholder: add the confirmed AdGen description and technology stack before publishing.',
-    stack: ['Stack to be confirmed'],
-    links: [],
+    id: 'sors', title: 'URS S.O.R.S (Student Online Resource Site)', context: 'Project',
+    description: 'Directed development of a real-time academic hub for Computer Engineering students with role-based access, featuring dynamic file-sharing interfaces for instant professor uploads (PDFs, videos) without page refreshes, plus live front-end tools including the Merriam-Webster API, World Clock, and an AI study assistant chatbot.',
+    stack: ['PHP', 'HTML', 'MySQL'], links: [],
   },
   {
-    id: 'bytes-by-aly',
-    title: 'Bytes by Aly',
-    context: 'Personal Project',
-    description:
-      'This responsive portfolio and online resume, built with a typed content layer, system-aware dark mode, and a focus on accessibility.',
-    stack: ['React', 'TypeScript', 'Tailwind CSS', 'Vite'],
-    links: [],
+    id: 'adgen', title: 'AdGen – AI Instant Video Ad Generator', context: 'Project',
+    description: 'Developed an AI-powered 10-second commercial script generator with interactive user forms for submitting brand logos, product details, and ad scenarios to streamline content creation.',
+    stack: ['Node.js', 'Firebase'], links: [],
+  },
+  {
+    id: 'edupro', title: 'EduPro — Online DSA Library', context: 'Project',
+    description: 'Built a web-based learning library that organizes Data Structures and Algorithms resources, giving students a searchable, easy-to-navigate collection of digital books in one place.',
+    stack: ['PHP', 'HTML', 'MySQL'], links: [],
+  },
+  {
+    id: 'wooden-bizarre', title: 'Wooden Bizarre Management System', context: 'Project',
+    description: 'Developed a business management system for managing orders, employees, attendance, and related business records.',
+    stack: ['React.js', 'PostgreSQL'], links: [],
+  },
+  {
+    id: 'dunkin-donuts-ordering-system', slug: 'dunkin-donuts-ordering-system',
+    title: 'Dunkin Donuts Ordering System', context: 'Project',
+    description: 'Developed a desktop ordering system for a Dunkin Donuts-style store that handles menu items, customer orders, and transactions.',
+    stack: ['VB.NET', 'MySQL'], links: [],
   },
 ]

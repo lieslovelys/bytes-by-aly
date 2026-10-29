@@ -9,6 +9,7 @@ export const projects = sqliteTable('projects', {
   stack: text('stack', { mode: 'json' }).$type<string[]>().notNull(),
   githubUrl: text('github_url'),
   demoUrl: text('demo_url'),
+  featured: integer('featured', { mode: 'boolean' }).notNull().default(false),
   sortOrder: integer('sort_order').notNull().default(0),
   createdAt: text('created_at').notNull().default(sql`CURRENT_TIMESTAMP`),
 })

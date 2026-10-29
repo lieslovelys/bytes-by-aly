@@ -1,4 +1,6 @@
-export type SocialIcon = 'github' | 'linkedin'
+import { contact, contactEmail } from './contact'
+
+export type SocialIcon = 'github' | 'linkedin' | 'telegram'
 
 export interface SocialLink {
   label: string
@@ -14,34 +16,33 @@ export interface SiteConfig {
   intro: string
   email: string
   location: string
-  resumeUrl: string
   socials: SocialLink[]
 }
 
-/**
- * Contact details are placeholders — update the email, GitHub, and LinkedIn
- * values below with the real accounts before publishing.
- */
 export const site: SiteConfig = {
   name: 'Alyssa Mae I. Esponilla',
-  shortName: 'Aly Esponilla',
+  shortName: 'Alyssa Mae I. Esponilla',
   initials: 'AE',
-  title: 'Computer Engineering Student | Aspiring Web Developer',
+  title: 'Computer Engineering Student | Entry-level Web Developer',
   intro:
-    'Fourth-year Computer Engineering student building reliable, user-friendly web experiences.',
-  email: 'alyssa.esponilla@gmail.com',
-  location: 'Antipolo City, Rizal, Philippines',
-  resumeUrl: '/resume.pdf',
+    'Bachelor of Science in Computer Engineering · Expected Graduation: 2027',
+  email: contactEmail,
+  location: 'Angono, Rizal, Philippines',
   socials: [
     {
       label: 'GitHub',
-      href: 'https://github.com/alyssa-esponilla',
+      href: contact.github,
       icon: 'github',
     },
     {
       label: 'LinkedIn',
-      href: 'https://www.linkedin.com/in/alyssa-esponilla',
+      href: contact.linkedin,
       icon: 'linkedin',
+    },
+    {
+      label: 'Telegram',
+      href: contact.telegram,
+      icon: 'telegram',
     },
   ],
 }
