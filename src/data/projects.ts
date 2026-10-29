@@ -50,26 +50,26 @@ export const projects: Project[] = [
     title: 'Automated Payroll System',
     context: 'Undergraduate Thesis',
     description:
-      'A centralized payroll platform for the University of Rizal System, bringing HR, Accounting, employee attendance, and payroll management into one system.',
+      'A centralized payroll platform for the University of Rizal System, bringing HR, Accounting, employee attendance, and payroll management into one system with biometric attendance integration.',
     stack: ['React.js', 'PostgreSQL', 'Biometric Device'],
     links: [],
   },
   {
     id: 'sors',
     title: 'S.O.R.S',
-    context: 'Student Records',
+    context: 'Project details to be confirmed',
     description:
-      'A student records system that brings profiles, academic records, and enrollment information into one easy-to-navigate dashboard.',
-    stack: ['React', 'TypeScript', 'Tailwind CSS'],
+      'Placeholder: add the confirmed S.O.R.S description and technology stack before publishing.',
+    stack: ['Stack to be confirmed'],
     links: [],
   },
   {
     id: 'adgen',
     title: 'AdGen',
-    context: 'Creative Tool',
+    context: 'Project details to be confirmed',
     description:
-      'An ad-generation tool that turns a short product brief into ready-to-publish copy and creative variations.',
-    stack: ['React', 'TypeScript', 'Tailwind CSS'],
+      'Placeholder: add the confirmed AdGen description and technology stack before publishing.',
+    stack: ['Stack to be confirmed'],
     links: [],
   },
   {

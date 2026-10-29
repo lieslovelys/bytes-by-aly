@@ -1,4 +1,5 @@
 import { site } from '../../data/site'
+import { ContactForm } from './ContactForm'
 import { ButtonLink } from '../../components/ButtonLink'
 import { Icon } from '../../components/Icon'
 import { Section } from '../../components/Section'
@@ -82,6 +83,7 @@ export function Contact() {
           </div>
         </div>
 
+        <ContactForm />
         <div className="mt-12 flex flex-col gap-3 border-t border-line pt-6 text-sm sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-8">
           <a
             href={`mailto:${site.email}`}
