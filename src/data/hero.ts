@@ -1,3 +1,5 @@
+import { academicAchievement } from './achievements'
+
 export interface HeroFact {
   label: string
   value: string
@@ -14,10 +16,10 @@ export const hero: HeroContent = {
   greeting: "Hello, I'm",
   availability: 'Open to entry-level Web Developer roles',
   facts: [
-    { label: 'Based in', value: 'Antipolo City, Rizal' },
+    { label: 'Based in', value: 'Angono, Rizal, Philippines' },
     { label: 'Program', value: 'BS Computer Engineering' },
     { label: 'Campus', value: 'URS Antipolo' },
     { label: 'Graduating', value: '2027' },
   ],
-  currently: 'Building URStamp, a QR-based attendance system for URS.',
+  currently: academicAchievement,
 }

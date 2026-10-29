@@ -1,8 +1,8 @@
 # Bytes by Aly
 
 A personal portfolio and online resume for **Alyssa Mae I. Esponilla**, a
-fourth-year BS Computer Engineering student at the University of Rizal System
-(URS) Antipolo Campus and aspiring Web Developer.
+BS Computer Engineering student at the University of Rizal System – Antipolo Campus
+(Expected Graduation: 2027) and entry-level Web Developer based in Angono, Rizal, Philippines.
 
 Built with React, TypeScript, Vite, and Tailwind CSS. Single page, responsive,
 system-aware dark mode, and a Cloudflare Workers + D1 backend using Drizzle.
@@ -39,11 +39,12 @@ pnpm lint      # run Oxlint
 src/
 ├── components/          # Shared UI: navbar, footer, section shell, tags, icons
 ├── data/                # All site content lives here, fully typed
-│   ├── site.ts          # Name, title, intro, email, socials, resume URL
+│   ├── site.ts          # Name, title, intro, email, socials
 │   ├── navigation.ts    # Section links
 │   ├── hero.ts          # Hero badges, facts, current focus
 │   ├── about.ts         # Career objective and quick facts
-│   ├── education.ts     # Degree and focus areas
+│   ├── education.ts     # BS Computer Engineering and STEM education
+│   ├── achievements.ts  # Achievement shown in the hero profile card
 │   ├── projects.ts      # Project cards (edit or add entries here)
 │   └── skills.ts        # Skill groups and tags
 ├── features/            # One folder per page section
@@ -65,15 +66,16 @@ featured status, context) stays in `src/data/projects.ts` to retain the design.
 
 ## Editing content
 
-- **Contact details:** update `src/data/site.ts`. The email, GitHub, and
-  LinkedIn values shipped with the site are placeholders — replace them with the
-  real accounts before deploying.
-- **Projects:** `src/data/projects.ts` supplies initial seed content; after seeding,
-  edit D1 rows through reviewed SQL migrations. GitHub/demo buttons use D1 URL fields.
-  S.O.R.S and AdGen are explicitly marked placeholders: confirm their descriptions
-  and stacks before publishing.
-- **Resume:** replace `public/resume.pdf` with the real PDF. The file is served
-  from `/resume.pdf` and linked in the nav and Contact section.
+- **Contact links:** `src/data/contact.ts` is the typed source of truth for
+  Email, Telegram, GitHub, and LinkedIn; `src/data/site.ts` imports these values.
+  Publish only Angono, Rizal, Philippines and email; no phone or street address.
+- **Projects and skills:** edit the typed resume data in `src/data/projects.ts`
+  and `src/data/skills.ts`, then run `pnpm db:seed` locally. The six projects
+  retain resume order; the 24 skills retain the four exact resume groups.
+  No project repository/demo links are supplied in the resume.
+- **Profile card achievement:** System Making 1st place – URStamp (2026),
+  maintained in `src/data/achievements.ts`.
+- **Resume download:** omitted because no verified, privacy-safe PDF was supplied.
 - **Favicon:** `public/favicon.svg`.
 - **Theme:** accent, surface, text, and line colors are defined as CSS
   variables in `src/index.css`, with a `prefers-color-scheme: dark` override.
@@ -135,7 +137,8 @@ Tables:
 regenerates bindings after Wrangler configuration changes. `pnpm exec tsc -b`
 checks frontend, Worker, configuration, and seed code.
 
-Seeding twice does not duplicate rows and does not overwrite existing rows.
+Seeding twice does not duplicate rows. It updates existing resume rows, removes
+obsolete projects/skills, and clears unverified project links. Messages are untouched.
 Local Wrangler commands and Vite share `.wrangler/state`; no Cloudflare login or
 real database ID is needed locally. Never commit secrets, `.env`, or `.dev.vars`.
 If pnpm reports ignored dependency build scripts, review them with
@@ -181,7 +184,7 @@ curl -i http://localhost:3000/api/messages
 
 Expect ordered JSON lists, 201 for valid contact, 400 for invalid input and the
 honeypot, and JSON 404 for messages/unknown API routes. Only valid contact adds
-a row. Repeat seeding and check counts: 5 projects, 8 skills. In the browser,
+a row. Repeat seeding and check counts: 6 projects, 24 skills. In the browser,
 check form feedback and section loading states; block API requests in DevTools
 to test Retry, and use an empty local table to check the empty state.
 

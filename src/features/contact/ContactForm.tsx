@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
+import { Send } from 'lucide-react'
 
 export function ContactForm() {
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
@@ -24,19 +25,24 @@ export function ContactForm() {
       setStatus('success'); setFeedback('Thanks! Your message has been saved.'); form.reset()
     } catch { setStatus('error'); setFeedback('Unable to send. Please try again later or email me directly.') }
   }
-  const fieldClass = 'mt-2 w-full rounded-xl border border-line bg-canvas px-4 py-3 text-ink'
-  return <form onSubmit={submit} className="mt-10 grid max-w-2xl gap-5" aria-busy={status === 'submitting'}>
-    <label className="text-sm font-medium" htmlFor="contact-name">Name
+  const fieldClass = 'mt-1.5 block min-h-11 w-full rounded-2xl border border-cream/20 bg-forest-dark/60 px-4 py-3 text-sm leading-relaxed text-cream placeholder:text-cream/50 focus:border-blush focus:ring-2 focus:ring-blush focus-visible:outline-blush'
+  return <form onSubmit={submit} className="space-y-4" aria-busy={status === 'submitting'}>
+    <label className="block text-sm font-medium" htmlFor="contact-name">Name
       <input id="contact-name" name="name" autoComplete="name" required maxLength={100} className={fieldClass} />
     </label>
-    <label className="text-sm font-medium" htmlFor="contact-email">Email
+    <label className="block text-sm font-medium" htmlFor="contact-email">Email
       <input id="contact-email" name="email" type="email" autoComplete="email" required maxLength={254} className={fieldClass} />
     </label>
-    <label className="text-sm font-medium" htmlFor="contact-message">Message
+    <label className="block text-sm font-medium" htmlFor="contact-message">Message
       <textarea id="contact-message" name="message" required maxLength={2000} rows={5} className={fieldClass} />
     </label>
     <div className="hidden" aria-hidden="true"><label htmlFor="contact-website">Leave this blank</label><input id="contact-website" name="website" tabIndex={-1} autoComplete="off" /></div>
-    <button disabled={status === 'submitting'} className="w-fit rounded-full bg-accent px-5 py-3 text-sm font-semibold text-accent-contrast hover:bg-accent-hover disabled:opacity-60">{status === 'submitting' ? 'Sending…' : 'Send message'}</button>
-    <p role="status" aria-live="polite" className="text-sm text-muted">{feedback}</p>
+    <div>
+      <button disabled={status === 'submitting'} className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-blush px-4 py-2 text-sm font-semibold text-forest transition-colors hover:bg-blush-deep focus-visible:outline-blush disabled:opacity-60 lg:w-auto">
+        <Send className="h-4 w-4" aria-hidden="true" />
+        {status === 'submitting' ? 'Sending…' : 'Send message'}
+      </button>
+      <p role="status" aria-live="polite" className="mt-2 text-sm text-cream">{feedback}</p>
+    </div>
   </form>
 }

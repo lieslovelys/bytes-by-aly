@@ -10,9 +10,9 @@ export interface AboutContent {
 
 export const about: AboutContent = {
   objective:
-    'To obtain an entry-level Web Developer position where I can apply my knowledge of web development, programming, and databases, and further develop my technical skills through real-world projects. I aim to contribute to a professional team by building reliable, user-friendly systems while continuously improving my problem-solving abilities and growing my career in web development.',
+    'To join a collaborative development team as an entry-level Web Developer, where I can apply my background in programming and databases to create practical, high-quality web solutions. I am committed to continuous learning, sharpening my problem-solving skills, and delivering work that meets the needs of users and the organization.',
   facts: [
-    { label: 'Based in', value: 'Antipolo City, Rizal' },
+    { label: 'Based in', value: 'Angono, Rizal, Philippines' },
     { label: 'Degree', value: 'BS Computer Engineering' },
     { label: 'University', value: 'University of Rizal System' },
     { label: 'Expected graduation', value: '2027' },

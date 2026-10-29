@@ -7,13 +7,13 @@ interface TagProps {
 
 export function Tag({ children, tone = 'neutral' }: TagProps) {
   const tones = {
-    neutral: 'border-line/80 bg-surface-muted text-muted',
-    accent: 'border-accent/20 bg-accent-soft text-accent',
+    neutral: 'border-forest/10 bg-blush text-forest',
+    accent: 'border-forest bg-cream text-forest',
   } as const
 
   return (
     <span
-      className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium ${tones[tone]}`}
+      className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium shadow-sm hover:shadow-md motion-safe:transition-transform motion-safe:duration-150 motion-safe:hover:-translate-y-1 ${tones[tone]}`}
     >
       {children}
     </span>
