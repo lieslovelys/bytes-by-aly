@@ -1,7 +1,6 @@
 @import 'tailwindcss';
 
-/* Keep the portfolio palette consistent regardless of the device theme.
-   Dark styles are opt-in rather than tied to prefers-color-scheme. */
+/* The document selects the forest theme regardless of the device theme. */
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @theme {
@@ -94,7 +93,7 @@
 }
 
 @layer base {
-  html { scroll-behavior: smooth; color-scheme: only light; }
+  html { scroll-behavior: smooth; color-scheme: only dark; }
   body {
     @apply bg-cream text-forest dark:bg-forest-dark dark:text-cream;
     min-height: 100svh;
@@ -108,7 +107,7 @@
   ::selection { @apply bg-blush text-forest; }
   :focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
   html[data-theme="dark"] {
-    color-scheme: dark;
+    color-scheme: only dark;
   }
   html[data-theme="dark"] :focus-visible {
     outline-color: var(--color-blush);
