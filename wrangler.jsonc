@@ -9,7 +9,7 @@
   },
   "d1_databases": [{
     "binding": "DB", "database_name": "bytes-by-aly",
-    "database_id": "00000000-0000-0000-0000-000000000000",
+    "database_id": "1526185e-4c7e-4a87-8d56-e034684f038e",
     "migrations_dir": "migrations"
   }]
 }
