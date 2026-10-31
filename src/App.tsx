@@ -11,10 +11,10 @@ import { useMotion } from './hooks/useMotion'
 function App() {
   useMotion()
   return (
-    <div className="min-h-svh">
+    <div className="page-layout">
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-60 focus:rounded-full focus:bg-blush focus:px-5 focus:py-2.5 focus:text-sm focus:font-semibold focus:text-forest"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-60 focus:rounded-lg focus:bg-accent focus:px-5 focus:py-3 focus:text-sm focus:font-semibold focus:text-on-accent"
       >
         Skip to content
       </a>

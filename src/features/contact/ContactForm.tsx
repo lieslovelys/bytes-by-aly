@@ -25,24 +25,24 @@ export function ContactForm() {
       setStatus('success'); setFeedback('Thanks! Your message has been saved.'); form.reset()
     } catch { setStatus('error'); setFeedback('Unable to send. Please try again later or email me directly.') }
   }
-  const fieldClass = 'mt-1.5 block min-h-11 w-full rounded-2xl border border-cream/20 bg-forest-dark/60 px-4 py-3 text-sm leading-relaxed text-cream placeholder:text-cream/50 focus:border-blush focus:ring-2 focus:ring-blush focus-visible:outline-blush'
-  return <form onSubmit={submit} className="space-y-4" aria-busy={status === 'submitting'}>
+  const fieldClass = 'field'
+  return <form onSubmit={submit} className="space-y-[var(--item-gap)]" aria-busy={status === 'submitting'} aria-describedby="contact-feedback">
     <label className="block text-sm font-medium" htmlFor="contact-name">Name
-      <input id="contact-name" name="name" autoComplete="name" required maxLength={100} className={fieldClass} />
+      <input id="contact-name" name="name" type="text" inputMode="text" enterKeyHint="next" autoComplete="name" placeholder="Your name" required maxLength={100} className={fieldClass} />
     </label>
     <label className="block text-sm font-medium" htmlFor="contact-email">Email
-      <input id="contact-email" name="email" type="email" autoComplete="email" required maxLength={254} className={fieldClass} />
+      <input id="contact-email" name="email" type="email" inputMode="email" enterKeyHint="next" autoComplete="email" placeholder="you@example.com" required maxLength={254} className={fieldClass} />
     </label>
     <label className="block text-sm font-medium" htmlFor="contact-message">Message
-      <textarea id="contact-message" name="message" required maxLength={2000} rows={5} className={fieldClass} />
+      <textarea id="contact-message" name="message" autoComplete="off" enterKeyHint="enter" placeholder="Tell me about your opportunity or project…" required maxLength={2000} rows={5} className={`${fieldClass} resize-y`} />
     </label>
     <div className="hidden" aria-hidden="true"><label htmlFor="contact-website">Leave this blank</label><input id="contact-website" name="website" tabIndex={-1} autoComplete="off" /></div>
     <div>
-      <button disabled={status === 'submitting'} className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-blush px-4 py-2 text-sm font-semibold text-forest transition-colors hover:bg-blush-deep focus-visible:outline-blush disabled:opacity-60 lg:w-auto">
+      <button disabled={status === 'submitting'} className="button w-full sm:w-auto">
         <Send className="h-4 w-4" aria-hidden="true" />
         {status === 'submitting' ? 'Sending…' : 'Send message'}
       </button>
-      <p role="status" aria-live="polite" className="mt-2 text-sm text-cream">{feedback}</p>
+      <p id="contact-feedback" role="status" aria-live="polite" data-status={status} className="feedback mt-3 text-sm text-muted">{feedback}</p>
     </div>
   </form>
 }

@@ -1,7 +1,6 @@
 import '@fontsource-variable/inter'
 import '@fontsource/cormorant-garamond/600.css'
 import '@fontsource/cormorant-garamond/700.css'
-import '@fontsource/pinyon-script/400.css'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'

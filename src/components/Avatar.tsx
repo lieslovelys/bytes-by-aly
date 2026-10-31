@@ -15,11 +15,11 @@ const sizes = {
 export function Avatar({ size, className = '' }: AvatarProps) {
   const [failed, setFailed] = useState(false)
   const dimension = size === 'lg' ? 96 : size === 'md' ? 64 : 40
-  const avatarClass = `shrink-0 border-2 border-blush ring-2 ring-blush/60 ring-offset-2 ring-offset-forest-dark ${size === 'lg' ? 'rounded-3xl' : 'rounded-full'} ${sizes[size]} ${className}`
+  const avatarClass = `shrink-0 border border-line ${size === 'lg' ? 'rounded-2xl' : 'rounded-full'} ${sizes[size]} ${className}`
 
   if (failed) {
     return (
-      <span className={`flex items-center justify-center bg-blush font-bold text-forest ${avatarClass}`} role="img" aria-label="Alyssa Mae Esponilla">
+      <span className={`flex items-center justify-center bg-tint font-bold text-accent ${avatarClass}`} role="img" aria-label="Alyssa Mae Esponilla">
         {site.initials}
       </span>
     )
@@ -27,7 +27,7 @@ export function Avatar({ size, className = '' }: AvatarProps) {
 
   return (
     <img
-      src="/images/aly.jpg"
+      src="/images/mae.jpg"
       alt="Photo of Alyssa Mae Esponilla"
       width={dimension}
       height={dimension}

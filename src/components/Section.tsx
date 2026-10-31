@@ -17,9 +17,10 @@ export function Section({
     <section
       id={id}
       aria-labelledby={labelledBy}
-      className={`scroll-mt-20 py-10 md:py-14 ${className}`}
+      className={`section ${className}`}
     >
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">{children}</div>
+      {id !== 'about' && id !== 'contact' && <div className="bg-art bg-art-section" aria-hidden="true"><span className="bg-grid" /><span className="bg-glow bg-glow-right" /></div>}
+      <div className="shell">{children}</div>
     </section>
   )
 }

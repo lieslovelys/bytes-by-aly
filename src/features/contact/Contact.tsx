@@ -1,4 +1,5 @@
 import { site } from '../../data/site'
+import { hero } from '../../data/hero'
 import { contact, contactEmail, emailComposeUrl } from '../../data/contact'
 import { ExternalLink, Mail, MapPin, MessageCircle } from 'lucide-react'
 import { ContactForm } from './ContactForm'
@@ -18,17 +19,17 @@ export function Contact() {
     <Section
       id="contact"
       labelledBy="contact-title"
-      className="border-t border-forest/10 pb-10 dark:border-cream/20 md:pb-10"
     >
       <div>
-        <div className="mb-6 md:mb-8 [&_header]:mb-0 [&_header>div]:mt-3">
+        <div data-reveal className="mb-[var(--content-gap)] [&_header]:mb-4">
           <SectionHeading
             icon={Mail}
             id="contact-title"
             eyebrow="05 — Contact"
             title="Let's build something useful."
           />
-          <p className="mt-3 max-w-prose text-sm leading-relaxed text-sage dark:text-cream md:text-base">
+          <p className="availability-pill"><span className="status-dot" aria-hidden="true" />{hero.availability}</p>
+          <p className="mt-3 max-w-prose text-sm leading-7 text-muted md:text-base">
             I'm currently looking for an entry-level Web Developer role. If
             you have an opportunity, a project in mind, or just want to say
             hello, my inbox is open.
@@ -36,12 +37,13 @@ export function Contact() {
         </div>
 
         <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-5">
-          <article aria-label="Contact form" className="min-w-0 rounded-3xl border border-cream/10 bg-forest p-5 text-cream md:p-6 lg:col-span-3">
+          <article aria-label="Contact form" className="panel lg:col-span-3">
+            <h3 className="mb-6 text-2xl font-semibold">Send a note</h3>
             <ContactForm />
           </article>
-          <aside aria-labelledby="reach-me-title" className="flex h-full min-w-0 flex-col rounded-3xl border border-cream/10 bg-forest p-5 text-cream md:p-6 lg:col-span-2">
-            <h3 id="reach-me-title" className="mb-3 w-fit rounded-full bg-blush px-2.5 py-1 text-xs font-semibold tracking-widest text-forest uppercase">REACH ME</h3>
-            <ul className="flex flex-1 flex-col justify-between divide-y divide-cream/10">
+          <aside aria-labelledby="reach-me-title" className="panel flex h-full flex-col bg-tint lg:col-span-2">
+            <h3 id="reach-me-title" className="mb-5 text-2xl font-semibold">Elsewhere &amp; directly</h3>
+            <ul className="flex flex-1 flex-col justify-between divide-y divide-line">
               {contactRows.map(({ label, value, href, icon: RowIcon, external, accessibleName }) => (
                 <li key={label}>
                   <a
@@ -49,27 +51,27 @@ export function Contact() {
                     target={external ? '_blank' : undefined}
                     rel={external ? 'noopener noreferrer' : undefined}
                     aria-label={accessibleName}
-                    className="group flex min-h-11 w-full items-center gap-3 rounded-2xl px-2 py-3 transition-colors hover:bg-cream/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blush"
+                    className="contact-link group flex min-h-11 w-full items-center gap-3 rounded-lg py-4"
                   >
-                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-blush text-forest transition-colors group-hover:bg-blush-deep">
+                    <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-line bg-surface text-accent">
                       {typeof RowIcon === 'string'
                         ? <Icon name={RowIcon} className="h-4 w-4" />
                         : <RowIcon className="h-4 w-4" aria-hidden="true" />}
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="block text-xs text-cream/70">{label}</span>
+                      <span className="block text-xs text-muted">{label}</span>
                       <span className="block text-sm break-words">{value}</span>
                     </span>
                     {external && <ExternalLink className="h-4 w-4 shrink-0" aria-hidden="true" />}
                   </a>
                 </li>
               ))}
-              <li className="flex min-h-11 items-center gap-3 px-2 py-3">
-                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-blush text-forest">
+              <li className="flex min-h-11 items-center gap-3 py-4">
+                <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-line bg-surface text-accent">
                   <MapPin className="h-4 w-4" aria-hidden="true" />
                 </span>
                 <span className="min-w-0">
-                  <span className="block text-xs text-cream/70">Location</span>
+                  <span className="block text-xs text-muted">Location</span>
                   <span className="block text-sm break-words">{site.location}</span>
                 </span>
               </li>

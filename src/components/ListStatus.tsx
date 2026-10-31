@@ -1,8 +1,8 @@
 export function ListStatus({ status, retry }: { status: string; retry: () => void }) {
   if (status === 'success') return null
-  return <div role="status" aria-live="polite" className="col-span-full text-sm text-sage dark:text-cream">
-    {status === 'idle' || status === 'loading' ? <><span className="sr-only">Loading…</span><div aria-hidden="true" className="h-40 animate-pulse rounded-3xl border border-forest/10 bg-blush dark:bg-forest motion-reduce:animate-none" /></> : null}
-    {status === 'empty' ? <p>Nothing here yet. Check back soon.</p> : null}
-    {status === 'error' ? <p>Unable to load this section. <button type="button" onClick={retry} className="min-h-11 rounded-full border border-current px-3 py-2 font-semibold text-forest dark:text-blush">Retry</button></p> : null}
+  return <div role="status" aria-live="polite" className="col-span-full rounded-xl border border-line bg-surface p-6 text-sm text-muted">
+    {status === 'idle' || status === 'loading' ? <><span className="sr-only">Loading…</span><div aria-hidden="true" className="h-32 rounded-lg bg-tint motion-safe:animate-pulse" /></> : null}
+    {status === 'empty' && <p>Nothing here yet. Check back soon.</p>}
+    {status === 'error' && <div className="flex flex-wrap items-center justify-between gap-4"><p>Unable to load this section.</p><button type="button" onClick={retry} className="button button-secondary">Retry</button></div>}
   </div>
 }

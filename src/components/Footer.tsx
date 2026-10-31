@@ -1,16 +1,26 @@
+import { ArrowUp } from 'lucide-react'
 import { site } from '../data/site'
+import { contact } from '../data/contact'
+import { Icon } from './Icon'
+import { BrandLogo } from './BrandLogo'
 
-const currentYear = new Date().getFullYear()
+const year = new Date().getFullYear()
 
 export function Footer() {
-  return (
-    <footer className="border-t border-cream/10 bg-forest py-6 pb-28 text-cream/70">
-      <div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-1 px-4 text-center text-xs sm:px-6 lg:flex-row lg:justify-between lg:text-left">
-        <p>
-          © {currentYear} {site.name} · Bytes by Aly
-        </p>
-        <p>Built with React, TypeScript &amp; Tailwind CSS.</p>
+  return <footer className="site-footer border-t border-line">
+    <div className="shell footer-content">
+      <div>
+        <BrandLogo />
+        <p className="text-xs">{site.location}</p>
       </div>
-    </footer>
-  )
+      <div className="text-xs">
+        <p>© {year} {site.name}</p>
+        <p className="mt-1">Built with React, TypeScript &amp; Tailwind CSS.</p>
+      </div>
+      <div className="flex flex-wrap items-center justify-center gap-1">
+        {(['email', 'github', 'linkedin', 'telegram'] as const).map((key) => <a key={key} href={contact[key]} target={key === 'email' ? undefined : '_blank'} rel={key === 'email' ? undefined : 'noopener noreferrer'} aria-label={key === 'email' ? `Email ${site.email}` : `${key === 'github' ? 'GitHub' : key === 'linkedin' ? 'LinkedIn' : 'Telegram'}, opens in a new tab`} className="grid size-11 place-items-center border border-line"><Icon name={key === 'email' ? 'mail' : key} /></a>)}
+        <a href="#top" className="inline-flex min-h-11 items-center gap-2 px-2 text-xs"><ArrowUp className="size-4" aria-hidden="true" />Back to top</a>
+      </div>
+    </div>
+  </footer>
 }

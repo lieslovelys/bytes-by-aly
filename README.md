@@ -5,7 +5,7 @@ BS Computer Engineering student at the University of Rizal System – Antipolo C
 (Expected Graduation: 2027) and entry-level Web Developer based in Angono, Rizal, Philippines.
 
 Built with React, TypeScript, Vite, and Tailwind CSS. Single page, responsive,
-system-aware dark mode, and a Cloudflare Workers + D1 backend using Drizzle.
+a fixed dark-mode palette, and a Cloudflare Workers + D1 backend using Drizzle.
 Routing uses plain typed fetch handlers (no extra routing dependency).
 
 ## Requirements
@@ -22,7 +22,13 @@ pnpm db:seed
 pnpm dev
 ```
 
-The dev server runs at **http://localhost:3000**.
+The dev server runs at **http://localhost:3000**. `pnpm dev` only starts Vite;
+it does not migrate or reseed the database. Run the local migration and seed
+commands explicitly when setting up a fresh workspace.
+
+**Before running `pnpm db:seed`:** back up any local project/skill edits you
+want to keep. Seeding syncs bundled content, removes obsolete projects/skills,
+and clears project repository/demo URLs. Contact messages are preserved.
 
 ## Scripts
 
@@ -78,8 +84,8 @@ featured status, context) stays in `src/data/projects.ts` to retain the design.
 - **Resume download:** omitted because no verified, privacy-safe PDF was supplied.
 - **Favicon:** `public/favicon.svg`.
 - **Theme:** accent, surface, text, and line colors are defined as CSS
-  variables in `src/index.css`, with a `prefers-color-scheme: dark` override.
-  Dark mode follows the operating system automatically.
+  variables in `src/index.css`. The dark-mode palette stays the same regardless
+  of the operating system appearance; the hero and top bar retain their cream background.
 - **Metadata:** page title, description, and social meta tags live in
   `index.html`.
 
@@ -87,28 +93,40 @@ featured status, context) stays in `src/data/projects.ts` to retain the design.
 
 - Semantic landmarks (`header`, `nav`, `main`, `section`, `article`, `footer`)
   and labelled sections.
-- Skip-to-content link, visible focus outlines, `aria-label` on icon-only
-  links, `aria-current` for the active nav item, and a keyboard-dismissible
-  mobile menu.
-- Color tokens are chosen for contrast in both light and dark mode.
-- Layout is designed from 375px up, with no horizontal overflow.
+- Skip-to-content link, visible focus outlines, `aria-label` on dock and icon-only
+  links, `aria-current` for the active dock item, and keyboard-dismissible
+  project modals and skill description panels.
+- Color tokens use the fixed dark-mode palette regardless of system appearance.
+- Layout targets widths from 280px up; verify horizontal overflow using the
+  browser checks below before committing responsive changes.
 - Animations and smooth scrolling are disabled when
   `prefers-reduced-motion: reduce` is set.
 
-### Verifying at 375px, 768px, and desktop
+### Verifying mobile, tablet, and desktop layouts
 
 1. Run `pnpm dev`, open http://localhost:3000.
 2. Open DevTools → Toggle device toolbar.
-3. Check **375 × 812**, **768 × 1024**, and **1440 × 900** (or full desktop).
+3. Check **280px** wide, **320 × 568**, **360 × 640**, **375 × 667**,
+   **390 × 844**, **412 × 915**, **430 × 932**, **480px** wide,
+   **600 × 960**, **768 × 1024**, **820 × 1180**, landscape **667 × 375**
+   and **844 × 390**, and desktop widths **1024px**, **1440px**, and **1920px**.
 4. At each width confirm:
    - The page never scrolls sideways (`document.documentElement.scrollWidth === document.documentElement.clientWidth` in the console).
-   - The nav switches to a menu button below 1024px; the menu opens, links
-     scroll to their sections, and Escape closes it.
+    - The bottom dock fits without clipping or covering content; its links scroll
+      to their sections and the active item updates. At 320px and below, inactive
+      items are icon-only but retain accessible names.
+    - The logo, brand text, and “Let’s connect” fit at the top of the page and
+      scroll away normally rather than following the viewport.
    - Hero, project cards, skills, and contact stack cleanly with no clipped
      text or buttons.
-   - Tabbing through the page shows a visible focus ring on every link/button.
-   - Toggle the OS light/dark appearance and reload; colors update and text
-     stays readable.
+    - Tabbing through the page shows a visible focus ring on every link/button.
+    - Project modals retain a consistent size when using Prev/Next; only the
+      modal body scrolls. Escape closes the modal and restores focus.
+    - Skill chips open on tap or keyboard activation; outside tap and Escape
+      close the description panel.
+    - With reduced motion enabled, content remains visible and animations stop.
+    - Toggle the OS light/dark appearance and reload; the site palette should
+      remain unchanged and text should stay readable.
 
 ## Notes
 
