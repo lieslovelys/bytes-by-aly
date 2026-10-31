@@ -15,9 +15,9 @@ interface ButtonLinkProps {
 
 const variants: Record<ButtonVariant, string> = {
   primary:
-    'border border-blush bg-blush text-forest hover:bg-blush-deep hover:border-blush-deep focus-visible:outline-forest dark:focus-visible:outline-blush',
+    '',
   secondary:
-    'border border-current bg-transparent text-inherit hover:bg-blush hover:text-forest dark:hover:text-forest',
+    'button-secondary',
 }
 
 export function ButtonLink({
@@ -40,7 +40,7 @@ export function ButtonLink({
         ? { target: '_blank', rel: 'noopener noreferrer' }
         : {})}
       {...(download ? { download: '' } : {})}
-      className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-200 ${variants[variant]} ${className}`}
+      className={`button ${variants[variant]} ${className}`}
     >
       {icon && iconPosition === 'left' ? icon : null}
       <span>{children}</span>

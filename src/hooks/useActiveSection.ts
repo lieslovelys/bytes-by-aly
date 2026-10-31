@@ -22,6 +22,7 @@ export function useActiveSection(ids: readonly string[]): string {
     }
     let observer: IntersectionObserver | undefined
     const observe = () => {
+      if (!('IntersectionObserver' in window)) { update(); return }
       observer?.disconnect()
       const top = window.innerHeight * 0.25
       const bottom = Math.max(0, window.innerHeight - top - 2)
@@ -34,9 +35,11 @@ export function useActiveSection(ids: readonly string[]): string {
     }
     observe()
     window.addEventListener('resize', observe)
+    window.addEventListener('scroll', update, { passive: true })
     return () => {
       observer?.disconnect()
       window.removeEventListener('resize', observe)
+      window.removeEventListener('scroll', update)
     }
   }, [ids])
 

@@ -18,7 +18,11 @@ export const slugOf = (project: Project) => {
 }
 export const categoryOf = (project: Project) => categories[slugOf(project)]
 export const iconOf = (project: Project) => icons[slugOf(project)] ?? Code2
-export const titleOf = (project: Project) => project.title.replace(/ — Thesis Project$/, '')
+export const yearOf = (project: Project) => project.year ?? (Number(project.title.match(/\((\d{4})\)/)?.[1]) || undefined)
+export const titleOf = (project: Project) => {
+  const title = project.title.replace(/ — Thesis Project$/, '')
+  return yearOf(project) ? title.replace(/\s*\(\d{4}\)/g, '').trim() : title
+}
 
 interface ShowcaseState { filter: Filter; selectedId: string | null }
 type ShowcaseAction = { type: 'filter'; filter: Filter } | { type: 'open'; id: string } | { type: 'close' }

@@ -1,118 +1,63 @@
+import { ArrowDown, Award } from 'lucide-react'
 import { site } from '../../data/site'
 import { hero } from '../../data/hero'
-import { ButtonLink } from '../../components/ButtonLink'
-import { Icon } from '../../components/Icon'
-import { Avatar } from '../../components/Avatar'
+import { academicAchievement } from '../../data/achievements'
+
+const achievementParts = academicAchievement.match(/^(.*?)\s+(\d+(?:st|nd|rd|th)\s+place)\s*[–—-]\s*(.*?)\s*\((\d{4})\)$/i)
+const achievementRank = achievementParts?.[2] ?? ''
+const achievementTitle = achievementParts
+  ? `${achievementParts[1]} · ${achievementParts[3]} ${achievementParts[4]}`
+  : academicAchievement
 
 export function Hero() {
-  return (
-    <section
-      id="top"
-      aria-labelledby="hero-title"
-      className="relative isolate scroll-mt-20 overflow-hidden bg-forest pt-4 pb-10 text-cream md:pt-6 md:pb-14 [&_:focus-visible]:outline-blush"
-    >
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
-      >
-        <div className="absolute top-8 -left-24 size-72 rounded-full bg-blush/10 blur-3xl sm:size-96" />
-        <div className="absolute -right-20 bottom-0 size-72 rounded-full bg-blush/5 blur-3xl sm:size-96" />
-      </div>
-
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
-        <div className="grid items-start gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-8">
-          <div>
-            <p className="inline-flex items-center gap-2 rounded-full border border-cream/30 bg-forest px-3 py-1 text-xs font-medium text-cream">
-              <span className="relative flex size-2">
-                <span className="absolute inline-flex size-full animate-ping rounded-full bg-blush opacity-60 motion-reduce:hidden" />
-                <span className="relative inline-flex size-2 rounded-full bg-blush" />
-              </span>
-              {hero.availability}
-            </p>
-
-            <p className="mt-4 text-label font-semibold tracking-widest text-blush uppercase">
-              {hero.greeting}
-            </p>
-
-            <SectionHeading
-              icon={Sparkles}
-              level="h1"
-              id="hero-title"
-              title={site.name}
-            />
-
-            <p className="mt-2 max-w-xl text-sm leading-relaxed font-medium text-cream motion-safe:animate-fade-up motion-safe:[animation-delay:100ms]">
-              {site.title}
-            </p>
-
-            <p className="mt-3 max-w-xl text-sm leading-relaxed text-cream motion-safe:animate-fade-up motion-safe:[animation-delay:200ms]">
-              {site.intro}
-            </p>
-
-            <div className="mt-4 flex flex-wrap items-center gap-2 motion-safe:animate-fade-up motion-safe:[animation-delay:300ms]">
-              <ButtonLink
-                href="#projects"
-                icon={<Icon name="arrow-down" className="size-4" />}
-              >
-                View Projects
-              </ButtonLink>
-              <ButtonLink href="#contact" variant="secondary">
-                Contact
-              </ButtonLink>
-            </div>
-
-            <p className="mt-4 flex items-center gap-2 text-xs text-cream">
-              <Icon name="map-pin" className="size-4 shrink-0 text-blush" />
-              <span>{site.location}</span>
-            </p>
+  return <section id="top" aria-labelledby="hero-title" className="poster-hero">
+    <div className="bg-art" aria-hidden="true">
+      <span className="bg-grid" />
+      <span className="bg-glow bg-glow-left" /><span className="bg-glow bg-glow-top" />
+      <span className="bg-monogram">A</span>
+      <svg className="bg-shapes" width="100%" height="100%" aria-hidden="true">
+        <path d="M12 0v16m-8-8h16" transform="translate(45 135)" />
+        <path d="m0 12 4-8 4 8 8 4-8 4-4 8-4-8-8-4Z" transform="translate(640 105)" />
+        <path d="M0 12Q15-8 30 12T60 12T90 12T120 12" transform="translate(70 570)" />
+      </svg>
+      <div className="bg-chips"><span className="hero-chip-relocated">{'</>'}</span><span>{'{ }'}</span><span>git push</span><span>npm run dev</span><span className="hero-chip-relocated">.tsx</span><span>const aly =</span></div>
+    </div>
+    <div className="shell hero-shell">
+      <div className="hero-composition">
+        <div className="hero-copy min-w-0">
+          <p className="poster-word">Developer Portfolio</p>
+          <h1 id="hero-title" className="poster-name">{site.name}</h1>
+          <p className="hero-role">Web <strong>Developer.</strong></p>
+          <p className="hero-intro">{site.intro}</p>
+          <p className="availability-pill"><span className="status-dot" aria-hidden="true" />{hero.availability}</p>
+          <a href="#projects" className="inline-flex min-h-11 items-center gap-3 border-b border-current text-xs font-semibold uppercase">Discover my work <ArrowDown aria-hidden="true" className="size-4" /></a>
+        </div>
+        <div className="hero-profile">
+          <div className="bg-art hero-profile-art" aria-hidden="true">
+            <span className="bg-glow bg-glow-right" />
+            <svg className="bg-shapes" width="100%" height="100%"><circle cx="85%" cy="24%" r="100" /><circle cx="85%" cy="24%" r="120" /></svg>
           </div>
-
-          <div className="relative mx-auto w-full max-w-sm lg:max-w-none">
-            <div
-              aria-hidden="true"
-              className="absolute -inset-3 rounded-[2rem] bg-blush/10"
-            />
-            <div className="relative rounded-3xl border border-forest/10 bg-cream p-5 text-forest shadow-sm dark:border-cream/20 dark:bg-forest dark:text-cream [&_:focus-visible]:outline-forest dark:[&_:focus-visible]:outline-blush">
-              <div className="flex items-center gap-2 md:gap-3">
-                <Avatar size="lg" className="max-md:h-14 max-md:w-14" />
-                <div className="min-w-0 flex-1">
-                  <p className="text-xs font-semibold whitespace-nowrap sm:text-sm">{site.shortName}</p>
-                  <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1">
-                    <p className="text-xs leading-relaxed text-sage dark:text-cream">BS Computer Engineering</p>
-                    <span className="rounded-full border border-forest/10 bg-blush px-2.5 py-0.5 text-xs font-semibold text-forest md:hidden">2027</span>
-                  </div>
-                </div>
-                <span className="ml-auto hidden shrink-0 rounded-full border border-forest/10 bg-blush px-2.5 py-0.5 text-xs font-semibold text-forest md:inline-flex">
-                  2027
-                </span>
-              </div>
-
-              <dl className="mt-4 border-t border-forest/10 pt-4 text-xs leading-relaxed dark:border-cream/20">
-                {hero.facts.map((fact) => (
-                  <div
-                    key={fact.label}
-                    className="flex items-baseline justify-between gap-3 py-1.5"
-                  >
-                    <dt className="text-sage dark:text-cream">{fact.label}</dt>
-                    <dd className="text-right font-medium">{fact.value}</dd>
-                  </div>
-                ))}
-              </dl>
-
-              <div className="mt-4 rounded-3xl bg-blush p-4 text-forest">
-                <p className="text-label font-semibold tracking-widest text-forest uppercase">
-                  Academic Achievement
-                </p>
-                <p className="mt-1.5 text-sm leading-relaxed">
-                  {hero.currently}
-                </p>
-              </div>
+          <div className="bg-chips hero-photo-chips" aria-hidden="true"><span>{'</>'}</span><span>.tsx</span></div>
+          <svg className="bg-orbit" viewBox="0 0 400 520" preserveAspectRatio="none" aria-hidden="true"><ellipse cx="200" cy="260" rx="195" ry="250" /></svg>
+          <div className="profile-window">
+            <div className="profile-titlebar" aria-hidden="true">
+              <span className="window-controls"><span /><span /><span /></span>
+              <span>aly.jpg</span>
+              <span className="window-filetype">IMG</span>
             </div>
+            <div className="hero-photo"><img src="/images/alymae.jpg" alt="Portrait of Alyssa Mae I. Esponilla" width={640} height={800} loading="eager" decoding="async" fetchPriority="high" /></div>
           </div>
+          <svg className="profile-code" viewBox="0 0 64 48" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><path d="m18 14-10 10 10 10m28-20 10 10-10 10M38 8 26 40" /></svg>
+          <p className="achievement-badge">
+            <span className="achievement-medal"><Award aria-hidden="true" className="size-6" /></span>
+            <span className="achievement-copy">
+              {achievementRank && <span className="achievement-rank">{achievementRank}</span>}
+              <span className="achievement-title">{achievementTitle}</span>
+            </span>
+          </p>
         </div>
       </div>
-    </section>
-  )
+    </div>
+    <svg className="hero-divider" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 60Q360 0 720 45T1440 30V80H0Z" /></svg>
+  </section>
 }
-import { Sparkles } from 'lucide-react'
-import { SectionHeading } from '../../components/SectionHeading'

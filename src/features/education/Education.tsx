@@ -1,24 +1,26 @@
+import { GraduationCap, School } from 'lucide-react'
 import { education } from '../../data/education'
 import { Section } from '../../components/Section'
-import { SectionHeading } from '../../components/SectionHeading'
 
 export function Education() {
-  return <Section id="education" labelledBy="education-title" className="border-t border-forest/10 bg-blush/20 dark:border-cream/20 dark:bg-forest-dark">
-    <SectionHeading icon={GraduationCap} id="education-title" eyebrow="02 — Education" title="Education" />
-    <ol className="space-y-4">
-      {education.map((entry) => <li key={entry.id} className="relative border-l border-forest/10 pl-5 dark:border-cream/20 sm:pl-6">
-        <span aria-hidden="true" className="absolute top-7 -left-[7px] size-3.5 rounded-full border-2 border-forest bg-blush dark:border-blush" />
-        <article className="rounded-3xl border border-forest/10 bg-cream p-5 shadow-sm dark:border-cream/20 dark:bg-forest md:p-6">
-          <div className="flex flex-wrap items-start justify-between gap-3">
-            <div>
-              <h3 className="text-base leading-tight font-semibold tracking-tight text-balance">{entry.degree}</h3>
-              <p className="mt-1.5 text-sm leading-relaxed text-sage dark:text-cream">{entry.school}</p>
-            </div>
-            <span className="rounded-full border border-forest/10 bg-blush px-2.5 py-0.5 text-xs font-semibold text-forest">{entry.period}</span>
-          </div>
-        </article>
-      </li>)}
-    </ol>
+  return <Section id="education" labelledBy="education-title" className="bg-surface">
+    <div className="education-layout">
+      <div className="education-summary">
+        <header className="education-heading">
+          <p className="eyebrow flex items-center gap-2"><GraduationCap aria-hidden="true" className="size-4" strokeWidth={1.6} />02 — Education</p>
+          <h2 id="education-title" className="education-title"><span>Learning.</span>{' '}<span>Building.</span>{' '}<span>Growing.</span></h2>
+        </header>
+      </div>
+      <ol className="education-timeline">
+        {education.map((entry, index) => <li key={entry.id} className="education-entry">
+          <span aria-hidden="true" className={`education-marker ${index === 0 ? 'education-marker-current' : ''}`} />
+          <article className="education-card">
+            <p className="education-period">{entry.period}</p>
+            <h3 className="education-degree">{entry.degree}</h3>
+            <p className="education-school"><School aria-hidden="true" className="size-4 shrink-0" strokeWidth={1.6} /><span>{entry.school}</span></p>
+          </article>
+        </li>)}
+      </ol>
+    </div>
   </Section>
 }
-import { GraduationCap } from 'lucide-react'
