@@ -1,15 +1,15 @@
-import { BookOpen, Clapperboard, Code2, Donut, Library, QrCode, Store, Wallet } from 'lucide-react'
+import { Award, BookOpen, Clapperboard, Code2, Coins, Donut, Library, QrCode, Store, Wallet } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import type { Project } from '../../data/projects'
 
 export type Filter = 'All' | 'Web' | 'Desktop' | 'Thesis'
 export const filters: Filter[] = ['All', 'Web', 'Desktop', 'Thesis']
 const categories: Record<string, Exclude<Filter, 'All'>> = {
-  payroll: 'Thesis', urstamp: 'Web', sors: 'Web', adgen: 'Web', edupro: 'Web',
+  payroll: 'Thesis', certfolio: 'Web', urstamp: 'Web', 'dao-for-clubs': 'Web', sors: 'Web', adgen: 'Web', edupro: 'Web',
   'wooden-bizarre': 'Web', 'dunkin-donuts-ordering-system': 'Desktop',
 }
 const icons: Record<string, LucideIcon> = {
-  payroll: Wallet, urstamp: QrCode, sors: BookOpen, adgen: Clapperboard,
+  payroll: Wallet, certfolio: Award, urstamp: QrCode, 'dao-for-clubs': Coins, sors: BookOpen, adgen: Clapperboard,
   edupro: Library, 'wooden-bizarre': Store, 'dunkin-donuts-ordering-system': Donut,
 }
 export const slugOf = (project: Project) => {

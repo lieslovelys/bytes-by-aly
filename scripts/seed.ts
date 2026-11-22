@@ -1,4 +1,4 @@
-import { execFileSync } from 'node:child_process'
+import { execSync } from 'node:child_process'
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { projects } from '../src/data/projects.ts'
 import { skillGroups } from '../src/data/skills.ts'
@@ -15,9 +15,11 @@ const statements = remote ? [] : [
 ]
 for (const [index, project] of projects.entries()) {
   const imageUrl = project.imageUrl ? quote(project.imageUrl) : 'NULL'
+  const demoUrl = project.links.find((l) => l.kind === 'demo')?.href ? quote(project.links.find((l) => l.kind === 'demo')!.href) : 'NULL'
+  const githubUrl = project.links.find((l) => l.kind === 'github')?.href ? quote(project.links.find((l) => l.kind === 'github')!.href) : 'NULL'
   statements.push(`INSERT INTO projects (id,title,slug,description,stack,github_url,demo_url,image_url,sort_order,featured)
-    VALUES (${quote(project.id)},${quote(project.title)},${quote(project.slug ?? project.id)},${quote(project.description)},${quote(JSON.stringify(project.stack))},NULL,NULL,${imageUrl},${index},${project.featured ? 1 : 0})
-    ${remote ? 'ON CONFLICT DO NOTHING' : 'ON CONFLICT(slug) DO UPDATE SET title=excluded.title,description=excluded.description,stack=excluded.stack,github_url=NULL,demo_url=NULL,image_url=excluded.image_url,sort_order=excluded.sort_order,featured=excluded.featured'};`)
+    VALUES (${quote(project.id)},${quote(project.title)},${quote(project.slug ?? project.id)},${quote(project.description)},${quote(JSON.stringify(project.stack))},${githubUrl},${demoUrl},${imageUrl},${index},${project.featured ? 1 : 0})
+    ${remote ? 'ON CONFLICT DO NOTHING' : 'ON CONFLICT(slug) DO UPDATE SET title=excluded.title,description=excluded.description,stack=excluded.stack,github_url=excluded.github_url,demo_url=excluded.demo_url,image_url=excluded.image_url,sort_order=excluded.sort_order,featured=excluded.featured'};`)
 }
 let order = 0
 for (const group of skillGroups) {
@@ -29,4 +31,5 @@ for (const group of skillGroups) {
 mkdirSync('.wrangler', { recursive: true })
 const file = `.wrangler/seed${remote ? '-remote' : ''}.sql`
 writeFileSync(file, statements.join('\n'))
-execFileSync('pnpm', ['exec', 'wrangler', 'd1', 'execute', 'DB', remote ? '--remote' : '--local', `--file=${file}`], { stdio: 'inherit' })
+const pnpm = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm'
+execSync(`${pnpm} exec wrangler d1 execute DB ${remote ? '--remote' : '--local'} --file="${file}"`, { stdio: 'inherit' })

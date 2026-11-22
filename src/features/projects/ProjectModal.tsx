@@ -1,5 +1,5 @@
 import { createElement, useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { ChevronLeft, ChevronRight, X } from 'lucide-react'
+import { ArrowUpRight, Award, ChevronLeft, ChevronRight, X } from 'lucide-react'
 import type { Project } from '../../data/projects'
 import { Tag } from '../../components/Tag'
 import { iconOf, slugOf, titleOf, yearOf } from './showcase'
@@ -17,13 +17,18 @@ export function ProjectModal({ project, projectIndex, projectCount, onClose, onS
   const body = useRef<HTMLDivElement>(null)
   const closing = useRef(false)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [prevId, setPrevId] = useState(project.id)
+  if (prevId !== project.id) {
+    setPrevId(project.id)
+    setCurrentImageIndex(0)
+  }
   
   // Collect all images for this project
-  const projectImages = [
-    project.imageUrl,
-    project.loginImage,
-    project.signupImage
-  ].filter((url): url is string => !!url)
+  const projectImages = (
+    project.images && project.images.length > 0
+      ? project.images
+      : [project.imageUrl, project.loginImage, project.signupImage]
+  ).filter((url): url is string => !!url)
   
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % projectImages.length)
@@ -42,7 +47,6 @@ export function ProjectModal({ project, projectIndex, projectCount, onClose, onS
   
   useLayoutEffect(() => {
     if (body.current) body.current.scrollTop = 0
-    setCurrentImageIndex(0)
   }, [project.id])
   useEffect(() => {
     const element = dialog.current!
@@ -73,13 +77,21 @@ export function ProjectModal({ project, projectIndex, projectCount, onClose, onS
     }} onCancel={(event) => { event.preventDefault(); requestClose() }} onClick={(event) => { if (event.target === event.currentTarget) requestClose() }} className="project-dialog fixed inset-0 m-auto rounded-2xl p-0 shadow-xl">
       <div className="code-header" aria-hidden="true"><span className="window-controls"><span /><span /><span /></span><span className="code-filename">{slugOf(project)}.tsx</span></div>
       <div ref={body} className="project-dialog-body">
-        <div className="project-dialog-toolbar flex items-start justify-between gap-4">
-          <span className="grid size-14 place-items-center rounded-xl bg-tint text-accent">{createElement(iconOf(project), { 'aria-hidden': true, className: 'size-6', strokeWidth: 1.5 })}</span>
-          <button type="button" autoFocus aria-label="Close project details" onClick={requestClose} className="modal-close grid size-11 place-items-center rounded-lg border border-line"><X aria-hidden="true" className="size-5" /></button>
+        <div className="project-dialog-toolbar flex items-center justify-between gap-4">
+          <span className="grid size-10 place-items-center rounded-lg bg-tint text-accent">{createElement(iconOf(project), { 'aria-hidden': true, className: 'size-5', strokeWidth: 1.5 })}</span>
+          <button type="button" autoFocus aria-label="Close project details" onClick={requestClose} className="modal-close grid size-9 place-items-center rounded-lg border border-line"><X aria-hidden="true" className="size-4" /></button>
         </div>
         <div key={project.id} className="project-dialog-content">
           <p className="eyebrow">Project details{year !== undefined && <> · <time dateTime={String(year)} className="project-year">{year}</time></>}</p>
-          <h2 id="project-modal-title" className="text-3xl leading-tight font-semibold text-balance md:text-4xl">{titleOf(project)}</h2>
+          <h2 id="project-modal-title" style={{ textWrap: 'wrap' }} className="w-full text-2xl font-semibold leading-snug sm:text-3xl md:text-[2rem]">{titleOf(project)}</h2>
+          {project.award && (
+            <div className="pt-1.5">
+              <span className="project-award">
+                <Award aria-hidden="true" className="size-3.5 shrink-0" />
+                <span>{project.award}</span>
+              </span>
+            </div>
+          )}
           
           {projectImages.length > 0 && (
             <div className="project-images-stack" onClick={nextImage}>
@@ -90,7 +102,7 @@ export function ProjectModal({ project, projectIndex, projectCount, onClose, onS
                     key={index}
                     className={`project-image-card ${offset === 0 ? 'active' : ''}`}
                     style={{
-                      transform: `translateX(-50%) translateY(${offset * 15}px) rotate(${offset === 0 ? 0 : offset === 1 ? 8 : -8}deg)`,
+                      transform: `translateX(-50%) translateY(${offset * 6}px) rotate(${offset === 0 ? 0 : offset === 1 ? 2.5 : -2.5}deg)`,
                       zIndex: projectImages.length - offset,
                       opacity: offset > 2 ? 0 : 1,
                       pointerEvents: offset > 2 ? 'none' : 'auto'
@@ -98,7 +110,7 @@ export function ProjectModal({ project, projectIndex, projectCount, onClose, onS
                   >
                     <img 
                       src={imageUrl} 
-                      alt={`${titleOf(project)} - ${index === 0 ? 'Main' : index === 1 ? 'Login' : 'Sign Up'}`}
+                      alt={`${titleOf(project)} - Preview ${index + 1}`}
                     />
                   </div>
                 )
@@ -107,8 +119,36 @@ export function ProjectModal({ project, projectIndex, projectCount, onClose, onS
           )}
           
           <p className="text-sm leading-7 text-muted">{project.description}</p>
+          {project.highlights && project.highlights.length > 0 && (
+            <div className="space-y-2 pt-1 text-sm text-muted">
+              <p className="font-medium text-foreground text-xs uppercase tracking-wider">Key Highlights</p>
+              <ul className="list-disc list-inside space-y-1.5 leading-relaxed">
+                {project.highlights.map((highlight, index) => (
+                  <li key={index} className="text-muted">{highlight}</li>
+                ))}
+              </ul>
+            </div>
+          )}
           <ul className="flex flex-wrap gap-2" aria-label="Technology stack">{project.stack.map((tag) => <li key={tag}><Tag>{tag}</Tag></li>)}</ul>
-          {project.links.length > 0 && <div className="flex flex-wrap gap-2">{project.links.map((link) => <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" className="button">{link.label}<span className="sr-only"> (opens in a new tab)</span></a>)}</div>}
+          {project.links.length > 0 && (
+            <div className="flex justify-center gap-3 flex-wrap pt-2">
+              {project.links.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`button inline-flex items-center justify-center gap-2 px-8 py-3 rounded-lg ${
+                    link.kind === 'github' && project.links.some((l) => l.kind === 'demo') ? 'button-secondary' : ''
+                  }`}
+                >
+                  <span>{link.label === 'Live demo' ? 'View site' : link.label}</span>
+                  <ArrowUpRight className="size-4 shrink-0" aria-hidden="true" />
+                  <span className="sr-only"> (opens in a new tab)</span>
+                </a>
+              ))}
+            </div>
+          )}
         </div>
       </div>
       <div className="project-dialog-footer" role="group" aria-label="Project navigation">
