@@ -14,9 +14,10 @@ const statements = remote ? [] : [
   `DELETE FROM skills WHERE id NOT IN (${skillGroups.flatMap((g) => g.skills.map((_, i) => quote(`${g.id}-${i}`))).join(',')});`,
 ]
 for (const [index, project] of projects.entries()) {
-  statements.push(`INSERT INTO projects (id,title,slug,description,stack,github_url,demo_url,sort_order,featured)
-    VALUES (${quote(project.id)},${quote(project.title)},${quote(project.slug ?? project.id)},${quote(project.description)},${quote(JSON.stringify(project.stack))},NULL,NULL,${index},${project.featured ? 1 : 0})
-    ${remote ? 'ON CONFLICT DO NOTHING' : 'ON CONFLICT(slug) DO UPDATE SET title=excluded.title,description=excluded.description,stack=excluded.stack,github_url=NULL,demo_url=NULL,sort_order=excluded.sort_order,featured=excluded.featured'};`)
+  const imageUrl = project.imageUrl ? quote(project.imageUrl) : 'NULL'
+  statements.push(`INSERT INTO projects (id,title,slug,description,stack,github_url,demo_url,image_url,sort_order,featured)
+    VALUES (${quote(project.id)},${quote(project.title)},${quote(project.slug ?? project.id)},${quote(project.description)},${quote(JSON.stringify(project.stack))},NULL,NULL,${imageUrl},${index},${project.featured ? 1 : 0})
+    ${remote ? 'ON CONFLICT DO NOTHING' : 'ON CONFLICT(slug) DO UPDATE SET title=excluded.title,description=excluded.description,stack=excluded.stack,github_url=NULL,demo_url=NULL,image_url=excluded.image_url,sort_order=excluded.sort_order,featured=excluded.featured'};`)
 }
 let order = 0
 for (const group of skillGroups) {

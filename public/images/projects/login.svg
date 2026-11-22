@@ -1,0 +1,82 @@
+<svg width="1400" height="900" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="leftGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e3a5f;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#5a7da8;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+  
+  <!-- Left Panel - Dark Blue Gradient -->
+  <rect width="560" height="900" fill="url(#leftGradient)"/>
+  
+  <!-- Left Panel Content -->
+  <!-- EduPro Logo -->
+  <g transform="translate(40, 40)">
+    <circle cx="25" cy="25" r="25" fill="white" opacity="0.2"/>
+    <text x="25" y="35" font-family="Arial, sans-serif" font-size="28" fill="white" text-anchor="middle">🎓</text>
+    <text x="65" y="35" font-family="'Archivo Narrow', Arial, sans-serif" font-size="24" font-weight="700" fill="white" letter-spacing="1">EduPro</text>
+  </g>
+  
+  <!-- Welcome Back Text -->
+  <text x="280" y="320" font-family="'Archivo Black', Arial, sans-serif" font-size="72" font-weight="900" fill="white" text-anchor="middle" letter-spacing="2">Welcome</text>
+  <text x="280" y="400" font-family="'Archivo Black', Arial, sans-serif" font-size="72" font-weight="900" fill="white" text-anchor="middle" letter-spacing="2">Back!</text>
+  
+  <!-- Right Panel - White Background -->
+  <rect x="560" y="0" width="840" height="900" fill="white"/>
+  
+  <!-- Close Button -->
+  <line x1="1340" y1="35" x2="1360" y2="55" stroke="black" stroke-width="3" stroke-linecap="round"/>
+  <line x1="1360" y1="35" x2="1340" y2="55" stroke="black" stroke-width="3" stroke-linecap="round"/>
+  
+  <!-- Log In Title -->
+  <text x="980" y="160" font-family="'Archivo Black', Arial, sans-serif" font-size="56" font-weight="900" fill="black" text-anchor="middle" letter-spacing="1">Log In</text>
+  
+  <!-- Subtitle -->
+  <text x="980" y="210" font-family="Arial, sans-serif" font-size="16" fill="#666" text-anchor="middle">Welcome back! Please login to your account.</text>
+  
+  <!-- Google Login Button -->
+  <rect x="720" y="250" width="220" height="48" rx="8" fill="white" stroke="#ddd" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="765" y="279" font-family="Arial, sans-serif" font-size="14" fill="#666">🔵</text>
+  <text x="790" y="279" font-family="Arial, sans-serif" font-size="14" fill="#333" font-weight="600">Log in with Google</text>
+  
+  <!-- Facebook Login Button -->
+  <rect x="960" y="250" width="220" height="48" rx="8" fill="white" stroke="#ddd" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="1005" y="279" font-family="Arial, sans-serif" font-size="14" fill="#1877f2">f</text>
+  <text x="1025" y="279" font-family="Arial, sans-serif" font-size="14" fill="#333" font-weight="600">Log in with Facebook</text>
+  
+  <!-- OR Divider -->
+  <line x1="720" y1="330" x2="930" y2="330" stroke="#ddd" stroke-width="1"/>
+  <text x="950" y="335" font-family="Arial, sans-serif" font-size="14" fill="#999" text-anchor="middle">Or</text>
+  <line x1="970" y1="330" x2="1180" y2="330" stroke="#ddd" stroke-width="1"/>
+  
+  <!-- User Name Label -->
+  <text x="720" y="380" font-family="Arial, sans-serif" font-size="14" fill="#666" font-weight="600">User Name</text>
+  
+  <!-- User Name Input -->
+  <rect x="720" y="390" width="460" height="50" rx="8" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+  
+  <!-- Password Label -->
+  <text x="720" y="470" font-family="Arial, sans-serif" font-size="14" fill="#666" font-weight="600">Password</text>
+  
+  <!-- Password Input -->
+  <rect x="720" y="480" width="460" height="50" rx="8" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+  <text x="1150" y="510" font-family="Arial, sans-serif" font-size="20" fill="#999" text-anchor="middle">👁</text>
+  
+  <!-- Remember Me & Forgot Password -->
+  <g transform="translate(720, 545)">
+    <rect width="16" height="16" rx="3" fill="white" stroke="#999" stroke-width="1.5"/>
+    <text x="24" y="13" font-family="Arial, sans-serif" font-size="13" fill="#666">Remember me</text>
+  </g>
+  <text x="1180" y="558" font-family="Arial, sans-serif" font-size="13" fill="#999" text-anchor="end">Forgot Password?</text>
+  
+  <!-- Log In Button -->
+  <rect x="720" y="595" width="460" height="54" rx="10" fill="#7eb5e8"/>
+  <text x="950" y="628" font-family="'Archivo Narrow', Arial, sans-serif" font-size="20" font-weight="700" fill="white" text-anchor="middle" letter-spacing="1">Log In</text>
+  
+  <!-- Sign Up Link -->
+  <text x="920" y="680" font-family="Arial, sans-serif" font-size="14" fill="#666" text-anchor="middle">New User? </text>
+  <text x="990" y="680" font-family="Arial, sans-serif" font-size="14" fill="#333" font-weight="600" text-anchor="middle" text-decoration="underline">Sign Up</text>
+</svg>

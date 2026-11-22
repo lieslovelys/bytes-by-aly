@@ -15,6 +15,13 @@
       "when": 1793264436598,
       "tag": "0001_past_thing",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1795329033874,
+      "tag": "0002_good_tenebrous",
+      "breakpoints": true
     }
   ]
 }

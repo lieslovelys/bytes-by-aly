@@ -9,6 +9,9 @@ export interface Project {
   stack: string[]
   highlights?: string[]
   links: ProjectLink[]
+  imageUrl?: string | null
+  loginImage?: string
+  signupImage?: string
   featured?: boolean
   year?: number
 }
@@ -46,6 +49,9 @@ export const projects: Project[] = [
     year: 2024,
     description: 'Built a web-based learning library that organizes Data Structures and Algorithms resources, giving students a searchable, easy-to-navigate collection of digital books in one place.',
     stack: ['PHP', 'HTML', 'MySQL'], links: [],
+    imageUrl: '/images/projects/edupro.png',
+    loginImage: '/images/projects/login.png',
+    signupImage: '/images/projects/signup.png',
   },
   {
     id: 'wooden-bizarre', title: 'Wooden Bizarre Management System', context: 'Project',

@@ -1,4 +1,4 @@
-import { createElement, useEffect, useLayoutEffect, useRef } from 'react'
+import { createElement, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { ChevronLeft, ChevronRight, X } from 'lucide-react'
 import type { Project } from '../../data/projects'
 import { Tag } from '../../components/Tag'
@@ -16,6 +16,19 @@ export function ProjectModal({ project, projectIndex, projectCount, onClose, onS
   const dialog = useRef<HTMLDialogElement>(null)
   const body = useRef<HTMLDivElement>(null)
   const closing = useRef(false)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  
+  // Collect all images for this project
+  const projectImages = [
+    project.imageUrl,
+    project.loginImage,
+    project.signupImage
+  ].filter((url): url is string => !!url)
+  
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % projectImages.length)
+  }
+  
   const requestClose = () => {
     if (closing.current) return
     closing.current = true
@@ -26,8 +39,10 @@ export function ProjectModal({ project, projectIndex, projectCount, onClose, onS
     void Promise.allSettled(animations.map((animation) => animation.finished)).then(onClose)
   }
   const year = yearOf(project)
+  
   useLayoutEffect(() => {
     if (body.current) body.current.scrollTop = 0
+    setCurrentImageIndex(0)
   }, [project.id])
   useEffect(() => {
     const element = dialog.current!
@@ -65,6 +80,32 @@ export function ProjectModal({ project, projectIndex, projectCount, onClose, onS
         <div key={project.id} className="project-dialog-content">
           <p className="eyebrow">Project details{year !== undefined && <> · <time dateTime={String(year)} className="project-year">{year}</time></>}</p>
           <h2 id="project-modal-title" className="text-3xl leading-tight font-semibold text-balance md:text-4xl">{titleOf(project)}</h2>
+          
+          {projectImages.length > 0 && (
+            <div className="project-images-stack" onClick={nextImage}>
+              {projectImages.map((imageUrl, index) => {
+                const offset = (index - currentImageIndex + projectImages.length) % projectImages.length
+                return (
+                  <div 
+                    key={index}
+                    className={`project-image-card ${offset === 0 ? 'active' : ''}`}
+                    style={{
+                      transform: `translateX(-50%) translateY(${offset * 15}px) rotate(${offset === 0 ? 0 : offset === 1 ? 8 : -8}deg)`,
+                      zIndex: projectImages.length - offset,
+                      opacity: offset > 2 ? 0 : 1,
+                      pointerEvents: offset > 2 ? 'none' : 'auto'
+                    }}
+                  >
+                    <img 
+                      src={imageUrl} 
+                      alt={`${titleOf(project)} - ${index === 0 ? 'Main' : index === 1 ? 'Login' : 'Sign Up'}`}
+                    />
+                  </div>
+                )
+              })}
+            </div>
+          )}
+          
           <p className="text-sm leading-7 text-muted">{project.description}</p>
           <ul className="flex flex-wrap gap-2" aria-label="Technology stack">{project.stack.map((tag) => <li key={tag}><Tag>{tag}</Tag></li>)}</ul>
           {project.links.length > 0 && <div className="flex flex-wrap gap-2">{project.links.map((link) => <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" className="button">{link.label}<span className="sr-only"> (opens in a new tab)</span></a>)}</div>}
