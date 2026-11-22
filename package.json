@@ -11,8 +11,8 @@
     "deploy": "wrangler deploy",
     "cf-typegen": "wrangler types",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "wrangler d1 migrations apply DB --local",
-    "db:migrate:remote": "wrangler d1 migrations apply DB --remote",
+    "db:migrate": "wrangler d1 migrations apply DB --local --yes",
+    "db:migrate:remote": "wrangler d1 migrations apply DB --remote --yes",
     "db:seed": "tsx scripts/seed.ts",
     "db:seed:remote": "tsx scripts/seed.ts --remote"
   },

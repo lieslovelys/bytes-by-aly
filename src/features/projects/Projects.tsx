@@ -22,16 +22,28 @@ export function Projects() {
       document.startViewTransition(update)
     } else update()
   }
-  const projects = state.data.map((row) => ({
-    ...presentation.find((project) => project.id === row.id),
-    ...row,
-    year: presentation.find((project) => project.id === row.id || (project.slug ?? project.id) === row.slug || project.title === row.title)?.year,
-    context: presentation.find((project) => project.id === row.id)?.context ?? 'Project',
-    links: [
-      ...(row.githubUrl ? [{ href: row.githubUrl, label: 'GitHub', kind: 'github' as const }] : []),
-      ...(row.demoUrl ? [{ href: row.demoUrl, label: 'Live demo', kind: 'demo' as const }] : []),
-    ],
-  }))
+  const projects = state.data.map((row) => {
+    const pres = presentation.find((project) => project.id === row.id)
+    return {
+      ...pres,
+      ...row,
+      year: presentation.find((project) => project.id === row.id || (project.slug ?? project.id) === row.slug || project.title === row.title)?.year,
+      context: presentation.find((project) => project.id === row.id)?.context ?? 'Project',
+      links: [
+        ...(row.demoUrl ? [{
+          href: row.demoUrl,
+          label: pres?.links.find((l) => l.href === row.demoUrl || l.kind === 'demo')?.label ?? 'View site',
+          kind: 'demo' as const,
+        }] : []),
+        ...(row.githubUrl ? [{
+          href: row.githubUrl,
+          label: pres?.links.find((l) => l.href === row.githubUrl || l.kind === 'github')?.label ?? 'GitHub',
+          kind: 'github' as const,
+        }] : []),
+        ...((!row.githubUrl && !row.demoUrl) ? (pres?.links ?? []) : []),
+      ],
+    }
+  })
   const visible = projects.filter((project) => showcase.filter === 'All' || categoryOf(project) === showcase.filter).sort((a, b) => Number(b.featured === true) - Number(a.featured === true))
   const selected = projects.find((project) => project.id === showcase.selectedId)
   const close = () => {

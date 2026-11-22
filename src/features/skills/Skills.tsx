@@ -6,6 +6,7 @@ import { useApiList } from '../../hooks/useApiList'
 import { ListStatus } from '../../components/ListStatus'
 import { Section } from '../../components/Section'
 import { SectionHeading } from '../../components/SectionHeading'
+import { SkillIcon } from '../../components/SkillIcon'
 
 const groupIcons = [Code2, Database, Layers, Sparkles]
 interface OpenSkill { id: string; name: string; category: string; trigger: HTMLButtonElement }
@@ -67,17 +68,40 @@ export function Skills() {
           <ul className="skill-chips">
             {group.skills.map((skill) => {
               const open = expanded && active?.id === skill.id
-              return <li key={skill.id}><button type="button" className="skill-chip" aria-expanded={open} aria-controls={`skill-description-${group.id}`} onClick={(event) => {
-                setActive({ id: skill.id, name: skill.name, category: group.name, trigger: event.currentTarget })
-                setExpanded(!open)
-              }}>{skill.name}<Info aria-hidden="true" className="size-3.5 shrink-0" /></button></li>
+              return (
+                <li key={skill.id}>
+                  <button
+                    type="button"
+                    className="skill-chip"
+                    aria-expanded={open}
+                    aria-controls={`skill-description-${group.id}`}
+                    onClick={(event) => {
+                      setActive({ id: skill.id, name: skill.name, category: group.name, trigger: event.currentTarget })
+                      setExpanded(!open)
+                    }}
+                  >
+                    <SkillIcon name={skill.name} className="size-4 shrink-0" />
+                    <span className="truncate max-w-[180px] sm:max-w-none">{skill.name}</span>
+                    <Info aria-hidden="true" className="size-3.5 shrink-0 opacity-60" />
+                  </button>
+                </li>
+              )
             })}
           </ul>
           <div className="skill-expand" data-open={expanded && active?.category === group.name} inert={!expanded || active?.category !== group.name} aria-hidden={!expanded || active?.category !== group.name}>
             <div className="skill-expand-clip">
               <div ref={active?.category === group.name ? panel : undefined} id={`skill-description-${group.id}`} role="region" aria-labelledby={active?.category === group.name ? `skill-name-${active.id}` : `skill-group-${group.id}`} className="skill-description">
                 {active?.category === group.name && <>
-                  <div className="flex items-start justify-between gap-2"><div className="min-w-0"><p className="eyebrow">{group.name}</p><h4 id={`skill-name-${active.id}`} className="mt-1 font-heading text-xl font-semibold">{active.name}</h4></div><button type="button" aria-label={`Close ${active.name} description`} className="skill-close" onClick={() => { setExpanded(false); active.trigger.focus({ preventScroll: true }) }}><X aria-hidden="true" className="size-4" /></button></div>
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <p className="eyebrow">{group.name}</p>
+                      <h4 id={`skill-name-${active.id}`} className="mt-1 flex items-center gap-2 font-heading text-xl font-semibold">
+                        <SkillIcon name={active.name} className="size-5 shrink-0" />
+                        <span>{active.name}</span>
+                      </h4>
+                    </div>
+                    <button type="button" aria-label={`Close ${active.name} description`} className="skill-close" onClick={() => { setExpanded(false); active.trigger.focus({ preventScroll: true }) }}><X aria-hidden="true" className="size-4" /></button>
+                  </div>
                   <p className="mt-2 text-sm leading-relaxed text-muted">{Object.hasOwn(skillDescriptions, active.name) ? skillDescriptions[active.name] : `${active.name} is listed in ${group.name}.`}</p>
                 </>}
               </div>

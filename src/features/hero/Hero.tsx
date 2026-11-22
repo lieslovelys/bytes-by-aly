@@ -1,15 +1,16 @@
+import { useState } from 'react'
 import { ArrowDown, Award } from 'lucide-react'
 import { site } from '../../data/site'
 import { hero } from '../../data/hero'
-import { academicAchievement } from '../../data/achievements'
-
-const achievementParts = academicAchievement.match(/^(.*?)\s+(\d+(?:st|nd|rd|th)\s+place)\s*[–—-]\s*(.*?)\s*\((\d{4})\)$/i)
-const achievementRank = achievementParts?.[2] ?? ''
-const achievementTitle = achievementParts
-  ? `${achievementParts[1]} · ${achievementParts[3]} ${achievementParts[4]}`
-  : academicAchievement
+import { achievementsList } from '../../data/achievements'
 
 export function Hero() {
+  const [achievementIndex, setAchievementIndex] = useState(0)
+
+  const nextAchievement = () => {
+    setAchievementIndex((prev) => (prev + 1) % achievementsList.length)
+  }
+
   return <section id="top" aria-labelledby="hero-title" className="poster-hero">
     <div className="bg-art" aria-hidden="true">
       <span className="bg-grid" />
@@ -45,16 +46,44 @@ export function Hero() {
               <span>aly.jpg</span>
               <span className="window-filetype">IMG</span>
             </div>
-            <div className="hero-photo"><img src="/images/alymae.jpg" alt="Portrait of Alyssa Mae I. Esponilla" width={640} height={800} loading="eager" decoding="async" fetchPriority="high" /></div>
+            <div className="hero-photo">
+            <div className="hero-photo">
+              <img src="/images/alymae.jpg" alt="Portrait of Alyssa Mae I. Esponilla" width={640} height={800} loading="eager" decoding="async" fetchPriority="high" />
+            </div>
+            </div>
           </div>
           <svg className="profile-code" viewBox="0 0 64 48" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><path d="m18 14-10 10 10 10m28-20 10 10-10 10M38 8 26 40" /></svg>
-          <p className="achievement-badge">
-            <span className="achievement-medal"><Award aria-hidden="true" className="size-6" /></span>
-            <span className="achievement-copy">
-              {achievementRank && <span className="achievement-rank">{achievementRank}</span>}
-              <span className="achievement-title">{achievementTitle}</span>
-            </span>
-          </p>
+          <button
+            type="button"
+            onClick={nextAchievement}
+            className="achievement-stack"
+            aria-label="Click to switch achievement"
+            title="Click to switch achievement"
+          >
+            {achievementsList.map((item, index) => {
+              const offset = (index - achievementIndex + achievementsList.length) % achievementsList.length
+              return (
+                <span
+                  key={item.id}
+                  className={`achievement-badge ${offset === 0 ? 'achievement-badge-front' : 'achievement-badge-back'}`}
+                  style={{
+                    zIndex: achievementsList.length - offset,
+                  }}
+                >
+                  <span className="achievement-medal">
+                    <Award aria-hidden="true" className="size-6" />
+                  </span>
+                  <span className="achievement-copy">
+                    <span className="achievement-rank">{item.rank}</span>
+                    <span className="achievement-title">
+                      <span>{item.title}</span>
+                      {item.subtitle && <span className="block font-medium opacity-90">{item.subtitle}</span>}
+                    </span>
+                  </span>
+                </span>
+              )
+            })}
+          </button>
         </div>
       </div>
     </div>
